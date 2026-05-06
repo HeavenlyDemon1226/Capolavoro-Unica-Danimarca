@@ -689,18 +689,19 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Use CartoDB Voyager theme (similar to Tramundi style)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap contributors © CARTO',
+        attribution: ' OpenStreetMap contributors  CARTO',
         maxZoom: 19
     }).addTo(map);
 
-    // Custom markers with numbers
+    // Renumbered locations in travel order
     const locations = [
-        {coords: [55.6761, 12.5683], number: 1, color: 'gold', label: 'Copenhagen'},
-        {coords: [55.8432, 12.4564], number: 2, color: 'gold', label: 'Roskilde'},
-        {coords: [57.0488, 9.9217], number: 3, color: 'gold', label: 'Aalborg'},
-        {coords: [65.6000, -18.9000], number: 4, color: 'blue', label: 'Groenlandia'},
-        {coords: [64.1750, -51.7000], number: 5, color: 'blue', label: 'Nuuk'},
-        {coords: [55.6761, 12.5683], number: 6, color: 'green', label: 'Copenhagen'}
+        {coords: [45.6306, 8.7281], number: 1, color: 'gold', label: 'Milano Malpensa'},
+        {coords: [55.6761, 12.5683], number: 2, color: 'gold', label: 'Copenhagen'},
+        {coords: [55.8432, 12.4564], number: 3, color: 'gold', label: 'Roskilde'},
+        {coords: [57.0488, 9.9217], number: 4, color: 'gold', label: 'Aalborg'},
+        {coords: [65.6000, -18.9000], number: 5, color: 'blue', label: 'Groenlandia'},
+        {coords: [64.1750, -51.7000], number: 6, color: 'blue', label: 'Nuuk'},
+        {coords: [55.6761, 12.5683], number: 7, color: 'green', label: 'Copenhagen (Ritorno)'}
     ];
 
     // Simplified curved paths for better performance
@@ -734,12 +735,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Special direct path for return Copenhagen (less curved)
+    function createDirectPath(start, end) {
+        return L.polyline([start, end], {
+            color: '#38a169',
+            weight: 4,
+            opacity: 0.8,
+            dashArray: '8,4',
+            className: 'route-line cruise'
+        });
+    }
+
     // Draw all routes
-    createSmoothPath(locations[0].coords, locations[1].coords).addTo(map);
-    createSmoothPath(locations[1].coords, locations[2].coords).addTo(map);
-    createSmoothPath(locations[2].coords, locations[3].coords, true).addTo(map);
-    createSmoothPath(locations[3].coords, locations[4].coords, true).addTo(map);
-    createSmoothPath(locations[4].coords, locations[5].coords, true).addTo(map);
+    createSmoothPath(locations[0].coords, locations[1].coords).addTo(map); // Malpensa → Copenhagen
+    createSmoothPath(locations[1].coords, locations[2].coords).addTo(map); // Copenhagen → Roskilde
+    createSmoothPath(locations[2].coords, locations[3].coords).addTo(map); // Roskilde → Aalborg
+    createSmoothPath(locations[3].coords, locations[4].coords, true).addTo(map); // Aalborg → Groenlandia (cruise)
+    createSmoothPath(locations[4].coords, locations[5].coords, true).addTo(map); // Groenlandia → Nuuk (cruise)
+    createDirectPath(locations[5].coords, locations[6].coords).addTo(map); // Nuuk → Copenhagen (direct cruise)
 
     // Add markers
     locations.forEach(loc => {
@@ -750,7 +763,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 iconSize: [32, 32],
                 className: 'custom-div-icon'
             })
-        }).addTo(map).bindPopup(`<strong>${loc.label}</strong><br>Giorno ${loc.number}`);
+        }).addTo(map).bindPopup(`<strong>${loc.label}</strong><br>Tappa ${loc.number}`);
     });
 });
 
