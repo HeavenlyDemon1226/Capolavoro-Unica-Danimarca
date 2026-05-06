@@ -6,6 +6,8 @@
     <title>Danimarca & Groenlandia: 10 giorni con Crociera inclusa</title>
     <meta name="description" content="Un viaggio indimenticabile tra fiordi, città vichinghe e ghiacciai artici — 10 giorni di meraviglia con crociera inclusa verso la Groenlandia.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         :root{--primary:#1a365d;--primary-light:#2a4a7f;--accent:#e8a838;--accent-hover:#d4952e;--bg:#fff;--bg-light:#f7f8fa;--bg-warm:#faf8f5;--text:#1a1a2e;--text-light:#5a5a7a;--text-lighter:#8a8aa0;--border:#e2e4e8;--border-light:#f0f1f3;--success:#38a169;--ice:#e0f2fe;--ice-dark:#0c4a6e;--nordic:#4a6fa5;--aurora:#48bb78}
@@ -212,6 +214,19 @@
 
         .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
         .fade-in.visible{opacity:1;transform:translateY(0)}
+
+        /* MAP */
+        .map-section{max-width:1280px;margin:0 auto;padding:40px 24px 0}
+        .map-wrap{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.08)}
+        #itinerary-map{width:100%;height:480px;z-index:1}
+        .map-legend{position:absolute;bottom:16px;left:16px;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-radius:12px;padding:16px 20px;font-size:.82rem;box-shadow:0 4px 16px rgba(0,0,0,.1);max-width:280px}
+        .map-legend-title{font-weight:700;color:var(--primary);margin-bottom:8px;font-size:.9rem}
+        .map-legend-item{display:flex;align-items:center;gap:8px;margin-bottom:4px;color:var(--text-light)}
+        .map-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+        .map-legend-dot.gold{background:var(--accent)}.map-legend-dot.blue{background:var(--nordic)}.map-legend-dot.green{background:var(--aurora)}
+        .map-marker{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#fff;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+        .map-marker.gold{background:var(--accent)}.map-marker.blue{background:var(--nordic)}.map-marker.green{background:var(--aurora)}
+        @media(max-width:768px){#itinerary-map{height:340px}.map-legend{padding:12px 14px;font-size:.75rem;max-width:220px}}
     </style>
 </head>
 <body>
@@ -277,6 +292,19 @@
         <div class="ph-icon">📸</div>
         <div class="ph-tag">IMAGE 1 — Hero Banner</div>
         <div class="ph-txt">Vista panoramica di Copenhagen dal canale di Nyhavn con le case colorate riflesse nell'acqua, cielo blu nordico. Orizzontale, 1920×800px.</div>
+    </div>
+</div>
+
+<!-- MAPPA INTERATTIVA -->
+<div class="map-section">
+    <div class="map-wrap">
+        <div id="itinerary-map"></div>
+        <div class="map-legend">
+            <div class="map-legend-title">Itinerario del Viaggio</div>
+            <div class="map-legend-item"><div class="map-legend-dot gold"></div>Giorno 1-3: Copenhagen & Roskilde</div>
+            <div class="map-legend-item"><div class="map-legend-dot blue"></div>Giorno 4-8: Crociera Artica</div>
+            <div class="map-legend-item"><div class="map-legend-dot green"></div>Giorno 9-10: Ritorno a Copenhagen</div>
+        </div>
     </div>
 </div>
 
@@ -648,6 +676,36 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Interactive Map
+document.addEventListener('DOMContentLoaded', () => {
+    const map = L.map('itinerary-map').setView([56.2639, 10.5018], 5);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Custom markers with numbers
+    const locations = [
+        {coords: [55.6761, 12.5683], number: 1, color: 'gold', label: 'Copenhagen'},
+        {coords: [55.8432, 12.4564], number: 2, color: 'gold', label: 'Roskilde'},
+        {coords: [57.0488, 9.9217], number: 3, color: 'gold', label: 'Aalborg'},
+        {coords: [65.6000, -18.9000], number: 4, color: 'blue', label: 'Groenlandia'},
+        {coords: [64.1750, -51.7000], number: 5, color: 'blue', label: 'Nuuk'},
+        {coords: [55.6761, 12.5683], number: 6, color: 'green', label: 'Copenhagen'}
+    ];
+
+    locations.forEach(loc => {
+        const markerHtml = `<div class="map-marker ${loc.color}">${loc.number}</div>`;
+        L.marker(loc.coords, {
+            icon: L.divIcon({
+                html: markerHtml,
+                iconSize: [32, 32],
+                className: 'custom-div-icon'
+            })
+        }).addTo(map).bindPopup(`<strong>${loc.label}</strong><br>Giorno ${loc.number}`);
+    });
+});
 
 // Mobile menu toggle
 const mobileToggle = document.getElementById('mobileToggle');
