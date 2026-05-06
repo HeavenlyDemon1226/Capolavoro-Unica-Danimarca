@@ -9,7 +9,972 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danimarca & Groenlandia: 10 giorni con Crociera inclusa</title>
+    <meta name="description" content="Un viaggio indimenticabile tra fiordi, città vichinghe e ghiacciai artici — 10 giorni di meraviglia con crociera inclusa verso la Groenlandia.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary:#1a365d;--primary-light:#2a4a7f;--accent:#e8a838;--accent-hover:#d4952e;--bg:#fff;--bg-light:#f7f8fa;--bg-warm:#faf8f5;--text:#1a1a2e;--text-light:#5a5a7a;--text-lighter:#8a8aa0;--border:#e2e4e8;--border-light:#f0f1f3;--success:#38a169;--ice:#e0f2fe;--ice-dark:#0c4a6e;--nordic:#4a6fa5;--aurora:#48bb78}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+        .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-light);transition:box-shadow .3s}
+        .navbar.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
+        .navbar-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+        .navbar-logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--primary);text-decoration:none}
+        .navbar-links{display:flex;gap:32px;align-items:center}
+        .navbar-links a{font-size:.9rem;font-weight:500;color:var(--text-light);text-decoration:none;transition:color .2s}
+        .navbar-links a:hover{color:var(--primary)}
+        .navbar-cta{background:var(--accent);color:#fff;padding:10px 24px;border-radius:8px;font-weight:600;font-size:.9rem;text-decoration:none;transition:background .2s}
+        .navbar-cta:hover{background:var(--accent-hover)}
+        .mobile-toggle{display:none;background:none;border:none;cursor:pointer;padding:4px}
+        .mobile-toggle span{display:block;width:24px;height:2px;background:var(--text);margin:5px 0}
+
+        .hero{position:relative;min-height:85vh;display:flex;align-items:center;overflow:hidden;background:linear-gradient(135deg,#0c1e3a,#1a365d 40%,#2a4a7f 70%,#4a6fa5);padding-top:64px}
+        .hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1531366562588-5a7e0b21c3d1?w=1920&q=80');background-size:cover;background-position:center;opacity:.3}
+        .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(12,30,58,.85),rgba(26,54,93,.7) 50%,rgba(42,74,127,.6))}
+        .hero-content{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:60px 24px;width:100%}
+        .hero-breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:24px;font-size:.85rem}
+        .hero-breadcrumb a{color:rgba(255,255,255,.6);text-decoration:none}
+        .hero-breadcrumb a:hover{color:#fff}
+        .hero-breadcrumb .sep{color:rgba(255,255,255,.3)}
+        .hero-breadcrumb .current{color:rgba(255,255,255,.9)}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(232,168,56,.15);border:1px solid rgba(232,168,56,.3);color:var(--accent);padding:8px 16px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:20px}
+        .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:700;color:#fff;line-height:1.15;margin-bottom:16px;max-width:700px}
+        .hero-subtitle{font-size:clamp(1rem,2vw,1.25rem);color:rgba(255,255,255,.8);max-width:600px;line-height:1.6;margin-bottom:32px}
+        .hero-meta{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:36px}
+        .hero-meta-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.9)}
+        .hero-meta-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+        .hero-meta-label{font-size:.75rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px}
+        .hero-meta-value{font-size:1.1rem;font-weight:700}
+        .hero-actions{display:flex;flex-wrap:wrap;gap:16px}
+        .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:16px 32px;border-radius:12px;font-weight:700;font-size:1rem;text-decoration:none;border:none;cursor:pointer;transition:all .2s}
+        .btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,168,56,.3)}
+        .btn-secondary{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;padding:16px 32px;border-radius:12px;font-weight:600;font-size:1rem;text-decoration:none;cursor:pointer;transition:all .2s}
+        .btn-secondary:hover{background:rgba(255,255,255,.15)}
+
+        .hero-price-card{position:absolute;right:5%;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:32px;text-align:center;color:#fff;max-width:280px}
+        .hero-price-label{font-size:.8rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+        .hero-price-from{font-size:.9rem;color:rgba(255,255,255,.7);margin-bottom:4px}
+        .hero-price-amount{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:var(--accent);line-height:1}
+        .hero-price-unit{font-size:1rem;color:rgba(255,255,255,.6);margin-top:4px}
+        .hero-price-divider{height:1px;background:rgba(255,255,255,.15);margin:16px 0}
+        .hero-price-features{list-style:none;text-align:left}
+        .hero-price-features li{display:flex;align-items:center;gap:8px;font-size:.85rem;color:rgba(255,255,255,.8);padding:4px 0}
+        .hero-price-features li::before{content:'✓';color:var(--aurora);font-weight:700}
+
+        .section{padding:80px 24px;max-width:1280px;margin:0 auto}
+        .section-alt{background:var(--bg-light)}
+        .section-header{text-align:center;margin-bottom:48px}
+        .section-label{display:inline-block;font-size:.8rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
+        .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;color:var(--primary);margin-bottom:12px}
+        .section-desc{font-size:1.05rem;color:var(--text-light);max-width:600px;margin:0 auto}
+
+        .itinerary-timeline{position:relative;padding-left:40px}
+        .itinerary-timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent),var(--nordic),var(--ice-dark))}
+        .itinerary-day{position:relative;margin-bottom:40px;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .3s}
+        .itinerary-day:hover{border-color:var(--accent);box-shadow:0 8px 32px rgba(232,168,56,.1);transform:translateX(4px)}
+        .itinerary-day::before{content:'';position:absolute;left:-33px;top:32px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);box-shadow:0 0 0 3px var(--accent);z-index:1}
+        .itinerary-day-number{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+        .itinerary-day-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+        .itinerary-day-desc{font-size:.95rem;color:var(--text-light);line-height:1.7}
+        .itinerary-day-desc p{margin-bottom:8px}
+        .itinerary-highlights{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+        .itinerary-highlight{display:inline-flex;align-items:center;gap:6px;background:var(--ice);color:var(--ice-dark);padding:6px 14px;border-radius:100px;font-size:.8rem;font-weight:600}
+        .itinerary-hotel{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 14px;background:var(--bg-warm);border-radius:10px;font-size:.85rem}
+        .itinerary-hotel-name{font-weight:600;color:var(--primary)}
+        .itinerary-hotel-detail{color:var(--text-light);font-size:.8rem}
+
+        .includes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px}
+        .includes-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:32px}
+        .includes-card-title{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--primary);margin-bottom:20px}
+        .includes-card-title .icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+        .includes-card-title .icon.green{background:rgba(56,161,105,.1);color:var(--success)}
+        .includes-card-title .icon.red{background:rgba(229,62,62,.1);color:#e53e3e}
+        .includes-list{list-style:none}
+        .includes-list li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-light);font-size:.95rem}
+        .includes-list li:last-child{border-bottom:none}
+        .includes-list .check{color:var(--success);font-weight:700;flex-shrink:0;margin-top:2px}
+        .includes-list .cross{color:#e53e3e;font-weight:700;flex-shrink:0;margin-top:2px}
+
+        .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+        .info-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:24px;transition:all .3s}
+        .info-card:hover{border-color:var(--nordic);box-shadow:0 4px 16px rgba(74,111,165,.1)}
+        .info-card-icon{width:48px;height:48px;border-radius:12px;background:var(--ice);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:14px}
+        .info-card-title{font-weight:700;color:var(--primary);margin-bottom:6px;font-size:.95rem}
+        .info-card-text{font-size:.9rem;color:var(--text-light);line-height:1.6}
+
+        .hotels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+        .hotel-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .3s}
+        .hotel-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+        .hotel-card-img{height:160px;background:linear-gradient(135deg,var(--nordic),var(--primary));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:rgba(255,255,255,.3)}
+        .hotel-card-body{padding:20px}
+        .hotel-card-name{font-weight:700;color:var(--primary);margin-bottom:4px}
+        .hotel-card-stars{color:var(--accent);font-size:.85rem;margin-bottom:6px}
+        .hotel-card-location{font-size:.85rem;color:var(--text-light)}
+        .hotel-card-price{font-size:.85rem;color:var(--success);font-weight:600;margin-top:8px}
+
+        .cruise-section{background:linear-gradient(135deg,#0c1e3a,#1a365d,#2a4a7f);color:#fff;padding:80px 24px}
+        .cruise-inner{max-width:1280px;margin:0 auto}
+        .cruise-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+        .cruise-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(232,168,56,.15);border:1px solid rgba(232,168,56,.3);color:var(--accent);padding:8px 16px;border-radius:100px;font-size:.8rem;font-weight:700;margin-bottom:16px}
+        .cruise-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;margin-bottom:16px}
+        .cruise-desc{font-size:1.05rem;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:24px}
+        .cruise-details{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .cruise-detail{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:20px}
+        .cruise-detail-label{font-size:.75rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+        .cruise-detail-value{font-size:1.1rem;font-weight:700}
+        .cruise-visual{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:40px;text-align:center}
+        .cruise-ship-icon{font-size:4rem;margin-bottom:16px}
+        .cruise-route{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+        .cruise-route-item{display:flex;align-items:center;gap:12px;font-size:.95rem;color:rgba(255,255,255,.85)}
+        .cruise-route-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0}
+        .cruise-route-line{width:2px;height:20px;background:rgba(255,255,255,.2);margin-left:4px}
+
+        .greenland-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+        .greenland-feature{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:32px;text-align:center;transition:all .3s}
+        .greenland-feature:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.06)}
+        .greenland-feature-icon{width:64px;height:64px;border-radius:16px;background:var(--ice);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 16px}
+        .greenland-feature-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:8px}
+        .greenland-feature-text{font-size:.9rem;color:var(--text-light);line-height:1.6}
+
+        .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:48px}
+        .summary-stat{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center}
+        .summary-stat-number{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1}
+        .summary-stat-label{font-size:.85rem;color:var(--text-light);margin-top:8px}
+        .summary-phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+        .summary-phase{display:flex;align-items:flex-start;gap:16px;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:24px}
+        .summary-phase-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+        .summary-phase-icon.discovery{background:rgba(232,168,56,.1);color:var(--accent)}
+        .summary-phase-icon.arctic{background:rgba(12,74,110,.1);color:var(--ice-dark)}
+        .summary-phase-icon.return{background:rgba(56,161,105,.1);color:var(--success)}
+        .summary-phase-title{font-weight:700;color:var(--primary);margin-bottom:4px}
+        .summary-phase-text{font-size:.85rem;color:var(--text-light)}
+
+        .flight-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:700px;margin:0 auto}
+        .flight-route{display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:24px}
+        .flight-city{text-align:center}
+        .flight-city-code{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--primary)}
+        .flight-city-name{font-size:.85rem;color:var(--text-light)}
+        .flight-arrow{display:flex;flex-direction:column;align-items:center;gap:4px}
+        .flight-arrow-line{width:80px;height:2px;background:var(--accent);position:relative}
+        .flight-arrow-line::after{content:'✈';position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:1rem;color:var(--accent)}
+        .flight-duration{font-size:.75rem;color:var(--text-lighter)}
+        .flight-details{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .flight-detail{padding:12px;background:var(--bg-light);border-radius:10px}
+        .flight-detail-label{font-size:.75rem;color:var(--text-lighter);text-transform:uppercase;letter-spacing:.5px}
+        .flight-detail-value{font-size:.95rem;font-weight:600;color:var(--text);margin-top:2px}
+
+        .cta-section{background:linear-gradient(135deg,var(--primary),var(--primary-light));padding:80px 24px;text-align:center;color:#fff}
+        .cta-inner{max-width:600px;margin:0 auto}
+        .cta-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;margin-bottom:16px}
+        .cta-desc{font-size:1.05rem;color:rgba(255,255,255,.75);margin-bottom:32px;line-height:1.7}
+        .cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:18px 40px;border-radius:12px;font-weight:700;font-size:1.1rem;text-decoration:none;border:none;cursor:pointer;transition:all .2s}
+        .cta-btn:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,168,56,.3)}
+
+        .footer{background:#0c1e3a;color:rgba(255,255,255,.6);padding:48px 24px 24px}
+        .footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+        .footer-brand-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:8px}
+        .footer-brand-desc{font-size:.85rem;line-height:1.6;max-width:360px}
+        .footer-title{font-size:.85rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+        .footer-links{list-style:none}
+        .footer-links li{margin-bottom:8px}
+        .footer-links a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;transition:color .2s}
+        .footer-links a:hover{color:var(--accent)}
+        .footer-bottom{max-width:1280px;margin:32px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;font-size:.8rem}
+
+        @media(max-width:1024px){.hero-price-card{display:none}.cruise-grid{grid-template-columns:1fr}}
+        @media(max-width:768px){
+            .navbar-links{display:none}.mobile-toggle{display:block}
+            .hero-meta{flex-direction:column;gap:16px}
+            .hero-actions{flex-direction:column}
+            .btn-primary,.btn-secondary{width:100%;justify-content:center}
+            .flight-route{flex-direction:column;gap:12px}
+            .flight-arrow-line{width:2px;height:40px}
+            .flight-arrow-line::after{left:12px;top:50%;transform:translateY(-50%) rotate(90deg)}
+            .flight-details{grid-template-columns:1fr}
+            .cruise-details{grid-template-columns:1fr}
+            .footer-inner{grid-template-columns:1fr;gap:24px}
+            .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+            .itinerary-timeline{padding-left:30px}
+            .itinerary-timeline::before{left:10px}
+            .itinerary-day::before{left:-28px;width:10px;height:10px}
+        }
+
+        /* IMAGE PLACEHOLDERS */
+        .img-ph{position:relative;background:#e8ecf2;border:2px dashed #c8d0dc;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#8a8aa0;min-height:200px}
+        .img-ph .ph-icon{font-size:2rem;margin-bottom:6px;opacity:.5}
+        .img-ph .ph-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--nordic);margin-bottom:4px}
+        .img-ph .ph-txt{font-size:.78rem;color:var(--text-light);max-width:300px;line-height:1.4;padding:0 12px}
+        .img-ph.wide{min-height:320px;border-radius:16px}
+        .img-ph.card-top{min-height:180px;border-radius:14px 14px 0 0}
+        .img-ph.dark{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.08)}
+        .img-ph.dark .ph-tag{color:var(--accent)}.img-ph.dark .ph-txt{color:rgba(255,255,255,.6)}.img-ph.dark .ph-icon{color:rgba(255,255,255,.4)}
+        
+        /* Responsive Images */
+        img{width:100%;height:auto;object-fit:cover;border-radius:inherit;transition:transform 0.3s ease}
+        img:hover{transform:scale(1.02)}
+        .itinerary-day-img{border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+        .feature-img{border-radius:14px 14px 0 0;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+        .card-top-img{border-radius:14px 14px 0 0;height:180px;object-fit:cover}
+        .cruise-ship-img{border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+        
+        .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+        .gallery-grid .img-ph{min-height:220px}
+        .gallery-grid img{border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);transition:transform 0.3s ease,box-shadow 0.3s ease;height:160px}
+        .gallery-grid img{cursor:pointer}
+        .gallery-grid img:hover{transform:scale(1.03);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+
+        .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:5000;display:none;align-items:center;justify-content:center;padding:24px}
+        .lightbox.open{display:flex}
+        .lightbox-inner{position:relative;max-width:min(1100px,92vw);max-height:86vh;width:100%;display:flex;align-items:center;justify-content:center}
+        .lightbox-img{max-width:100%;max-height:86vh;border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.45);object-fit:contain;background:rgba(255,255,255,.06)}
+        .lightbox-close{position:absolute;top:-12px;right:-12px;width:42px;height:42px;border-radius:999px;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+        .lightbox-close:hover{background:rgba(255,255,255,.22)}
+        .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:999px;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+        .lightbox-nav:hover{background:rgba(255,255,255,.22)}
+        .lightbox-prev{left:-16px}
+        .lightbox-next{right:-16px}
+        @media(max-width:768px){.lightbox-prev{left:-6px}.lightbox-next{right:-6px}.lightbox-close{top:-8px;right:-8px}}
+        .it-day-img{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+        @media(max-width:1024px){.it-day-img{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:768px){.gallery-grid{grid-template-columns:1fr}}
+
+        .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+        .fade-in.visible{opacity:1;transform:translateY(0)}
+
+        /* MAP */
+        .map-section{max-width:1280px;margin:0 auto;padding:40px 24px 0}
+        .map-wrap{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.08)}
+        #itinerary-map{width:100%;height:480px;z-index:1}
+        .map-legend{position:absolute;bottom:16px;left:16px;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-radius:12px;padding:16px 20px;font-size:.82rem;box-shadow:0 4px 16px rgba(0,0,0,.1);max-width:280px}
+        .map-legend-title{font-weight:700;color:var(--primary);margin-bottom:8px;font-size:.9rem}
+        .map-legend-item{display:flex;align-items:center;gap:8px;margin-bottom:4px;color:var(--text-light)}
+        .map-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+        .map-legend-dot.gold{background:var(--accent)}.map-legend-dot.blue{background:var(--nordic)}.map-legend-dot.green{background:var(--aurora)}
+        .map-legend-toggle{position:absolute;top:16px;right:16px;z-index:1001;background:var(--primary);color:#fff;border:none;padding:8px 12px;border-radius:6px;font-weight:500;cursor:pointer;transition:all .3s ease;display:flex;align-items:center;gap:6px;font-size:.85rem}
+        .map-legend-toggle:hover{background:var(--primary-light);transform:translateY(-1px)}
+        .map-marker{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#fff;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+        .map-marker.gold{background:var(--accent)}.map-marker.blue{background:var(--nordic)}.map-marker.green{background:var(--aurora)}
+        
+        /* Route lines */
+        .route-line{stroke:#4a6fa5;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+        .route-line.cruise{stroke:#38a169;stroke-width:4;stroke-dasharray:8,4;animation:dash 20s linear infinite}
+        @keyframes dash{to{stroke-dashoffset:-100}}
+        
+        /* Gallery Toggle */
+        .gallery-toggle{background:var(--primary);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:500;cursor:pointer;margin-top:12px;transition:all .3s ease;display:flex;align-items:center;gap:8px}
+        .gallery-toggle:hover{background:var(--primary-light);transform:translateY(-1px)}
+        .gallery-toggle-float{background:var(--primary);color:#fff;border:none;padding:8px 12px;border-radius:6px;font-weight:500;cursor:pointer;transition:all .3s ease;display:flex;align-items:center;gap:6px;font-size:.85rem}
+        .gallery-toggle-float:hover{background:var(--primary-light);transform:translateY(-1px)}
+        #galleryContent{display:none;overflow:hidden;transition:max-height .3s ease}
+        #galleryContent.expanded{display:block}
+        #galleryToggleIcon{transition:transform .3s ease}
+        #galleryToggleIcon.rotated{transform:rotate(180deg)}
+        #galleryToggleFloatIcon{transition:transform .3s ease}
+        #galleryToggleFloatIcon.rotated{transform:rotate(180deg)}
+        
+        @media(max-width:768px){#itinerary-map{height:340px}.map-legend{padding:12px 14px;font-size:.75rem;max-width:220px}}
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+        <a href="#" class="navbar-logo">🧊 Danimarca Tour</a>
+        <div class="navbar-links">
+            <a href="#itinerario">Itinerario</a>
+            <a href="#crociera">Crociera</a>
+            <a href="#include">Include</a>
+            <a href="#info">Info</a>
+            <a href="#hotel">Hotel</a>
+            <a href="#galleria">Galleria</a>
+            <a href="#riepilogo">Riepilogo</a>
+            <a href="#prenota" class="navbar-cta">Prenota ora</a>
+        </div>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="hero-breadcrumb">
+            <a href="#">Home</a><span class="sep">/</span>
+            <a href="#">Europa</a><span class="sep">/</span>
+            <a href="#">Danimarca</a><span class="sep">/</span>
+            <span class="current">Danimarca & Groenlandia</span>
+        </div>
+        <div class="hero-badge">🧊 Crociera Artica Inclusa</div>
+        <h1>Danimarca & Groenlandia</h1>
+        <p class="hero-subtitle">Un viaggio indimenticabile tra fiordi, città vichinghe e ghiacciai artici — 10 giorni di meraviglia già preparata ed organizzata per voi.</p>
+        <div class="hero-meta">
+            <div class="hero-meta-item"><div class="hero-meta-icon">📅</div><div><div class="hero-meta-label">Durata</div><div class="hero-meta-value">10 Giorni · 9 Notti</div></div></div>
+            <div class="hero-meta-item"><div class="hero-meta-icon">🚢</div><div><div class="hero-meta-label">Crociera</div><div class="hero-meta-value">5 Giorni in Mare</div></div></div>
+            <div class="hero-meta-item"><div class="hero-meta-icon">🏨</div><div><div class="hero-meta-label">Hotel</div><div class="hero-meta-value">4★ Selezionati</div></div></div>
+            <div class="hero-meta-item"><div class="hero-meta-icon">✈️</div><div><div class="hero-meta-label">Volo</div><div class="hero-meta-value">A/R Proposto</div></div></div>
+        </div>
+        <div class="hero-actions">
+            <a href="#prenota" class="btn-primary">Prenota il viaggio →</a>
+            <a href="#itinerario" class="btn-secondary">Scopri l'itinerario</a>
+        </div>
+    </div>
+    <div class="hero-price-card">
+        <div class="hero-price-label">Costo stimato</div>
+        <div class="hero-price-from">A partire da</div>
+        <div class="hero-price-amount">€3.200</div>
+        <div class="hero-price-unit">per persona</div>
+        <div class="hero-price-divider"></div>
+        <ul class="hero-price-features">
+            <li>Volo A/R incluso</li><li>9 notti di alloggio</li><li>Crociera artica 5 gg</li><li>Guide locali</li><li>Trasferimenti in treno</li>
+        </ul>
+    </div>
+</section>
+
+<!-- IMAGE 1 — Hero Banner -->
+<div style="max-width:1280px;margin:0 auto;padding:0 24px">
+    <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-1.png" alt="Hero Banner" class="img-ph wide fade-in" style="margin-top:-40px;position:relative;z-index:10">
+</div>
+
+<!-- MAPPA INTERATTIVA -->
+<div class="map-section">
+    <div class="map-wrap">
+        <div id="itinerary-map"></div>
+        <button class="map-legend-toggle" id="mapLegendToggle"><span id="mapLegendToggleIcon">▲</span> Legenda</button>
+        <div class="map-legend">
+            <div class="map-legend-title">Itinerario del Viaggio</div>
+            <div class="map-legend-item"><div class="map-legend-dot gold"></div>Giorno 1-3: Copenhagen & Roskilde</div>
+            <div class="map-legend-item"><div class="map-legend-dot blue"></div>Giorno 4-8: Crociera Artica</div>
+            <div class="map-legend-item"><div class="map-legend-dot green"></div>Giorno 9-10: Ritorno a Copenhagen</div>
+        </div>
+    </div>
+</div>
+
+<!-- DENMARK INFO -->
+<section class="section-alt">
+    <div class="section fade-in" style="padding-bottom:0">
+        <div class="section-header">
+            <div class="section-label">🇩🇰 Benvenuti</div>
+            <h2 class="section-title">In Danimarca</h2>
+            <p class="section-desc">Una nazione nordica con storia millenaria vichinga</p>
+        </div>
+    </div>
+</section>
+<div class="section-alt">
+    <div class="section" style="padding-top:0">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px" class="fade-in">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-14.png" alt="Danimarca" class="itinerary-day-img">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-15.png" alt="Hygge danese" class="itinerary-day-img">
+        </div>
+        <div class="info-grid fade-in">
+            <div class="info-card"><div class="info-card-icon">🌍</div><div class="info-card-title">Geopolitica</div><div class="info-card-text">Monarchia costituzionale, membro NATO e UE, capitale Copenhagen. Include Groenlandia e Isole Faroe.</div></div>
+            <div class="info-card"><div class="info-card-icon">🏛️</div><div class="info-card-title">Cultura</div><div class="info-card-text">Design scandinavo, gastronomia nordica, musei di fama mondiale e il concetto di "hygge": calore e convivialità.</div></div>
+            <div class="info-card"><div class="info-card-icon">🌿</div><div class="info-card-title">Paesaggi</div><div class="info-card-text">Pianure, fiordi, dune sabbiose, foreste di betulle e ghiacciai artici in Groenlandia.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- GREENLAND -->
+<section class="section" id="groenlandia">
+    <div class="section-header fade-in">
+        <div class="section-label">🏔️ Groenlandia</div>
+        <h2 class="section-title">Un Mondo Senza Tempo</h2>
+        <p class="section-desc">Ghiacciai, cultura Inuit e paesaggi mozzafiato</p>
+    </div>
+    <div class="greenland-features">
+        <div class="greenland-feature fade-in">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-11.png" alt="Iceberg Ilulissat" class="feature-img">
+            <div class="greenland-feature-icon">🧊</div><div class="greenland-feature-title">Iceberg e Fiordi</div><div class="greenland-feature-text">Il Fiordo di Ilulissat, Patrimonio UNESCO, ospita i ghiacciai più attivi dell'emisfero nord. Uno spettacolo mozzafiato.</div></div>
+        <div class="greenland-feature fade-in">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-12.png" alt="Nuuk" class="feature-img">
+            <div class="greenland-feature-icon">🏘️</div><div class="greenland-feature-title">Nuuk, la Capitale</div><div class="greenland-feature-text">La capitale più settentrionale del mondo. Casa Coloniale, Museo Nazionale con le famose mummie di Qilakitsoq.</div></div>
+        <div class="greenland-feature fade-in">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-13.png" alt="Cultura Inuit" class="feature-img">
+            <div class="greenland-feature-icon">🪈</div><div class="greenland-feature-title">Cultura Inuit</div><div class="greenland-feature-text">Incontro autentico con le comunità locali: tradizioni millenarie, cucina artica e canti di gola unici al mondo.</div></div>
+    </div>
+</section>
+
+<!-- FLIGHT -->
+<section class="section" id="volo">
+    <div class="section-header fade-in">
+        <div class="section-label">✈️ Volo</div>
+        <h2 class="section-title">Volo Andata & Ritorno</h2>
+        <p class="section-desc">Tratta diretta proposta da Milano Malpensa a Copenhagen</p>
+    </div>
+    <div class="flight-card fade-in">
+        <div class="flight-route">
+            <div class="flight-city"><div class="flight-city-code">MXP</div><div class="flight-city-name">Milano Malpensa</div></div>
+            <div class="flight-arrow"><div class="flight-arrow-line"></div><div class="flight-duration">~2h 30min</div></div>
+            <div class="flight-city"><div class="flight-city-code">CPH</div><div class="flight-city-name">Copenhagen Airport</div></div>
+        </div>
+        <div class="flight-details">
+            <div class="flight-detail"><div class="flight-detail-label">Compagnie</div><div class="flight-detail-value">SAS, Lufthansa, EasyJet</div></div>
+            <div class="flight-detail"><div class="flight-detail-label">Tratta proposta</div><div class="flight-detail-value">SAS diretta da Milano</div></div>
+            <div class="flight-detail"><div class="flight-detail-label">Costo estate</div><div class="flight-detail-value">~€240 a persona</div></div>
+            <div class="flight-detail"><div class="flight-detail-label">Costo inverno</div><div class="flight-detail-value">~€210 a persona</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ITINERARY -->
+<section class="section-alt" id="itinerario">
+    <div class="section fade-in" style="padding-bottom:0">
+        <div class="section-header">
+            <div class="section-label">📍 Itinerario</div>
+            <h2 class="section-title">Il tuo viaggio, giorno per giorno</h2>
+            <p class="section-desc">Da Copenhagen ai ghiacciai della Groenlandia e ritorno</p>
+        </div>
+    </div>
+</section>
+<div class="section-alt">
+    <div class="section" style="padding-top:0">
+        <div class="itinerary-timeline" id="itineraryContent">
+            <div class="itinerary-day fade-in">
+                <div class="itinerary-day-number">Giorno 1</div>
+                <div class="itinerary-day-title">Italia — Copenhagen</div>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc"><p>Volo da Milano Malpensa a Copenhagen. Arrivo e trasferimento in hotel. Prima serata libera per esplorare la città.</p>
+                    <div class="itinerary-highlights"><span class="itinerary-highlight">✈️ Volo diretto</span><span class="itinerary-highlight">🧳 Trasferimento hotel</span></div></div>
+                    <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-1.png" alt="Volo Copenhagen" class="itinerary-day-img">
+                </div>
+            </div>
+            <div class="itinerary-day fade-in">
+                <div class="itinerary-day-number">Giorno 2</div>
+                <div class="itinerary-day-title">Copenhagen, la Città delle Sirene</div>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc">
+                        <p><strong>Nyhavn & Centro Storico</strong> — Passeggiata lungo il canale più fotografato d'Europa, visita alla Sirenetta e al Palazzo di Amalienborg.</p>
+                        <p><strong>Tivoli Gardens</strong> — Il parco di divertimenti più antico del mondo, aperto dal 1843. Un'esperienza magica anche di sera.</p>
+                        <p><strong>Castello di Rosenborg</strong> — Gioielli della Corona reale danese e giardini reali, cuore storico della città.</p>
+                    </div>
+                    <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-2.png" alt="Copenhagen Nyhavn" class="itinerary-day-img">
+                </div>
+                <div class="itinerary-highlights"><span class="itinerary-highlight">🏛️ Nyhavn</span><span class="itinerary-highlight">🎢 Tivoli</span><span class="itinerary-highlight">👑 Rosenborg</span></div>
+                <div class="itinerary-hotel"><span style="font-size:1.1rem">🏨</span><div><div class="itinerary-hotel-name">Wakeup Copenhagen Borgergade ★★★★</div><div class="itinerary-hotel-detail">Design moderno, posizione centrale — ~€110/notte</div></div></div>
+            </div>
+            <div class="itinerary-day fade-in">
+                <div class="itinerary-day-number">Giorno 3</div>
+                <div class="itinerary-day-title">Roskilde & Partenza per il Nord</div>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc">
+                        <p>A soli 30 minuti da Copenhagen, <strong>Roskilde</strong> custodisce il celebre Museo delle Navi Vichinghe con imbarcazioni originali del X secolo. La cattedrale gotica, Patrimonio UNESCO, ospita le tombe di 40 re danesi.</p>
+                        <p>Nel pomeriggio spostamento in treno verso <strong>Aalborg</strong>, da dove salperà la crociera.</p>
+                    </div>
+                    <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-3.png" alt="Castello Rosenborg" class="itinerary-day-img">
+                </div>
+                <div class="itinerary-highlights"><span class="itinerary-highlight">⛵ Museo Vichingo</span><span class="itinerary-highlight">⛪ Cattedrale UNESCO</span><span class="itinerary-highlight">🚂 Treno Aalborg</span></div>
+                <div class="itinerary-hotel"><span style="font-size:1.1rem">🏨</span><div><div class="itinerary-hotel-name">Comwell Hvide Hus Aalborg ★★★★</div><div class="itinerary-hotel-detail">Vista sul fiordo — ~€120/notte</div></div></div>
+            </div>
+            <div class="itinerary-day fade-in" style="border-color:var(--nordic);border-width:2px">
+                <div class="itinerary-day-number" style="color:var(--nordic)">Giorni 4–8</div>
+                <div class="itinerary-day-title">🚢 La Crociera Artica — Verso la Groenlandia</div>
+                <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-4.png" alt="Crociera Artica" class="itinerary-day-img">
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc">
+                        <p>Il cuore del viaggio: crociera di 4 giorni a bordo di una nave di medie dimensioni, ideale per esplorare le acque artiche.</p>
+                        <p><strong>Rotta:</strong> Aalborg → Fiordi Norvegesi → Tasiilaq (Groenlandia Est) → Nuuk → Rientro.</p>
+                        <p>Escursioni guidate: kayak tra gli iceberg, trekking sulla tundra, avvistamento di balene e foche, incontro con le comunità Inuit. Le notti regalano spesso l'<strong>Aurora Boreale</strong> (settembre–marzo).</p>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:12px">
+                        <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-5.png" alt="Kayak iceberg" class="itinerary-day-img">
+                        <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-6.png" alt="Aurora Boreale" class="itinerary-day-img">
+                        <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-7.png" alt="Aurora Boreale" class="itinerary-day-img">
+                    </div>
+                </div>
+                <div class="itinerary-highlights"><span class="itinerary-highlight">🛶 Kayak</span><span class="itinerary-highlight">🐋 Balene</span><span class="itinerary-highlight">🌌 Aurora</span><span class="itinerary-highlight">🏔️ Trekking</span></div>
+                <div class="itinerary-hotel"><span style="font-size:1.1rem">🚢</span><div><div class="itinerary-hotel-name">Hurtigruten MS Maud (o simile)</div><div class="itinerary-hotel-detail">Cabine doppie con oblò, ristorante nordico — ~€1.400/persona</div></div></div>
+            </div>
+            <div class="itinerary-day fade-in">
+                <div class="itinerary-day-number">Giorno 9</div>
+                <div class="itinerary-day-title">Rientro dalla Crociera</div>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc"><p>Sbarco ad Aalborg o Copenhagen. Trasferimento in treno verso la capitale (~1h 15min). Check-in in hotel e cena libera nel quartiere <strong>Vesterbro</strong>, con i suoi ristoranti alla moda e il mercato di Torvehallerne.</p></div>
+                    <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-8.png" alt="Giorno 9" class="itinerary-day-img">
+                </div>
+                <div class="itinerary-highlights"><span class="itinerary-highlight">🚂 Treno CPH</span><span class="itinerary-highlight">🍽️ Vesterbro</span><span class="itinerary-highlight">🏪 Torvehallerne</span></div>
+                <div class="itinerary-hotel"><span style="font-size:1.1rem">🏨</span><div><div class="itinerary-hotel-name">Hotel SP34 Copenhagen ★★★★</div><div class="itinerary-hotel-detail">Boutique hotel quartiere Latino — ~€135/notte</div></div></div>
+            </div>
+            <div class="itinerary-day fade-in">
+                <div class="itinerary-day-number">Giorno 10</div>
+                <div class="itinerary-day-title">L'Ultimo Giorno a Copenhagen</div>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc"><p>Mattinata al <strong>Designmuseum Danmark</strong> o shopping a <strong>Strøget</strong>, la via pedonale più lunga d'Europa. Pranzo tipico con smørrebrød e volo di rientro.</p></div>
+                    <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-9.png" alt="Giorno 10" class="itinerary-day-img">
+                </div>
+                <div class="itinerary-highlights"><span class="itinerary-highlight">🎨 Designmuseum</span><span class="itinerary-highlight">🛍️ Strøget</span><span class="itinerary-highlight">🥪 Smørrebrød</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CRUISE -->
+<section class="cruise-section" id="crociera">
+    <div class="cruise-inner">
+        <div class="cruise-grid">
+            <div class="fade-in">
+                <div class="cruise-badge">🚢 4 Giorni in Mare</div>
+                <h2 class="cruise-title">La Crociera Artica</h2>
+                <p class="cruise-desc">Fino alla Groenlandia — Il cuore del viaggio: una crociera di 4 giorni per esplorare le acque artiche in modo autentico e confortevole.</p>
+                <div class="cruise-details">
+                    <div class="cruise-detail"><div class="cruise-detail-label">La Nave</div><div class="cruise-detail-value">Hurtigruten MS Maud</div></div>
+                    <div class="cruise-detail"><div class="cruise-detail-label">Cabine</div><div class="cruise-detail-value">Doppie con oblò</div></div>
+                    <div class="cruise-detail"><div class="cruise-detail-label">Pensione</div><div class="cruise-detail-value">Mezza pensione inclusa</div></div>
+                    <div class="cruise-detail"><div class="cruise-detail-label">Costo stimato</div><div class="cruise-detail-value" style="color:var(--accent)">A partire da €1.400/pp</div></div>
+                </div>
+            </div>
+            <div class="cruise-visual fade-in">
+                <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-10.png" alt="Nave da crociera" class="cruise-ship-img">
+                <div class="cruise-ship-icon">🚢</div>
+                <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:8px">Rotta della Crociera</h3>
+                <p style="font-size:.85rem;color:rgba(255,255,255,.5)">Aalborg → Groenlandia → Ritorno</p>
+                <div class="cruise-route">
+                    <div class="cruise-route-item"><div class="cruise-route-dot"></div>Aalborg, Danimarca</div>
+                    <div class="cruise-route-line" style="margin-left:4px"></div>
+                    <div class="cruise-route-item"><div class="cruise-route-dot" style="background:rgba(255,255,255,.3)"></div>Fiordi Norvegesi</div>
+                    <div class="cruise-route-line" style="margin-left:4px"></div>
+                    <div class="cruise-route-item"><div class="cruise-route-dot" style="background:var(--aurora)"></div>Tasiilaq, Groenlandia Est</div>
+                    <div class="cruise-route-line" style="margin-left:4px"></div>
+                    <div class="cruise-route-item"><div class="cruise-route-dot" style="background:var(--aurora)"></div>Nuuk, Capitale</div>
+                    <div class="cruise-route-line" style="margin-left:4px"></div>
+                    <div class="cruise-route-item"><div class="cruise-route-dot"></div>Rientro</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- INCLUDES -->
+<section class="section" id="include">
+    <div class="section-header fade-in">
+        <div class="section-label">📋 Dettagli</div>
+        <h2 class="section-title">Cosa include il viaggio</h2>
+    </div>
+    <div class="includes-grid fade-in">
+        <div class="includes-card">
+            <div class="includes-card-title"><div class="icon green">✓</div>Cosa include</div>
+            <ul class="includes-list">
+                <li><span class="check">✓</span>Volo internazionale A/R proposto</li>
+                <li><span class="check">✓</span>9 notti di alloggio (4 in hotel 4★ + 5 in crociera)</li>
+                <li><span class="check">✓</span>Crociera artica 5 giorni con cabina doppia</li>
+                <li><span class="check">✓</span>Mezza pensione sulla nave</li>
+                <li><span class="check">✓</span>Guide turistiche locali</li>
+                <li><span class="check">✓</span>Trasferimenti in treno</li>
+                <li><span class="check">✓</span>Tutte le escursioni crociera</li>
+                <li><span class="check">✓</span>Tasse aeroportuali</li>
+            </ul>
+        </div>
+        <div class="includes-card">
+            <div class="includes-card-title"><div class="icon red">✗</div>Non include</div>
+            <ul class="includes-list">
+                <li><span class="cross">✗</span>Bevande e pasti non indicati in programma</li>
+                <li><span class="cross">✗</span>Ingressi ai musei e siti (da pagare in loco)</li>
+                <li><span class="cross">✗</span>Escursioni facoltative extra</li>
+                <li><span class="cross">✗</span>Extra personali e mance</li>
+                <li><span class="cross">✗</span>Assicurazione viaggio (consigliata)</li>
+                <li><span class="cross">✗</span>Tutto quanto non indicato alla voce "Cosa include"</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- IMPORTANT INFO -->
+<section class="section-alt" id="info">
+    <div class="section fade-in" style="padding-bottom:0">
+        <div class="section-header">
+            <div class="section-label">ℹ️ Info</div>
+            <h2 class="section-title">Cose importanti da sapere</h2>
+        </div>
+    </div>
+</section>
+<div class="section-alt">
+    <div class="section" style="padding-top:0">
+        <div class="info-grid fade-in">
+            <div class="info-card"><div class="info-card-icon">💰</div><div class="info-card-title">Valuta</div><div class="info-card-text">Corona danese (DKK) in Danimarca e Groenlandia.</div></div>
+            <div class="info-card"><div class="info-card-icon">💉</div><div class="info-card-title">Vaccinazioni</div><div class="info-card-text">Non obbligatorie. Consultare il proprio medico.</div></div>
+            <div class="info-card"><div class="info-card-icon">📄</div><div class="info-card-title">Documenti</div><div class="info-card-text">Carta d'identità per la Danimarca (UE). Passaporto per la Groenlandia.</div></div>
+            <div class="info-card"><div class="info-card-icon">🆘</div><div class="info-card-title">Emergenze</div><div class="info-card-text">Emergenze: 112 · Polizia: 114 · Ambulanza: 112</div></div>
+            <div class="info-card"><div class="info-card-icon">🔌</div><div class="info-card-title">Prese elettriche</div><div class="info-card-text">Tipo C, F, K — Adattatore consigliato.</div></div>
+            <div class="info-card"><div class="info-card-icon">🌡️</div><div class="info-card-title">Clima</div><div class="info-card-text">Danimarca: 15-25°C estate. Groenlandia: 0-10°C estate. Abbigliamento a strati.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- HOTELS -->
+<section class="section" id="hotel">
+    <div class="section-header fade-in">
+        <div class="section-label">🏨 Hotel</div>
+        <h2 class="section-title">Informazioni sugli Hotel</h2>
+        <p class="section-desc">Le strutture potrebbero essere sostituite con soluzioni di pari livello</p>
+    </div>
+    <div class="hotels-grid fade-in">
+        <div class="hotel-card"><img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-16.png" alt="Hotel Wakeup" class="card-top-img"><div class="hotel-card-body"><div class="hotel-card-name">Wakeup Copenhagen Borgergade</div><div class="hotel-card-stars">★★★★</div><div class="hotel-card-location">Copenhagen, Giorni 1-2</div><div class="hotel-card-price">~€110/notte</div></div></div>
+        <div class="hotel-card"><img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-17.png" alt="Comwell Aalborg" class="card-top-img"><div class="hotel-card-body"><div class="hotel-card-name">Comwell Hvide Hus Aalborg</div><div class="hotel-card-stars">★★★★</div><div class="hotel-card-location">Aalborg, Giorno 3</div><div class="hotel-card-price">~€120/notte</div></div></div>
+        <div class="hotel-card"><img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-18.png" alt="MS Maud cabina" class="card-top-img"><div class="hotel-card-body"><div class="hotel-card-name">Hurtigruten MS Maud</div><div class="hotel-card-stars">Crociera Premium</div><div class="hotel-card-location">Giorni 4-8, Mare Artico</div><div class="hotel-card-price">~€1.400/pp (5 gg)</div></div></div>
+        <div class="hotel-card"><img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-19.png" alt="Hotel SP34" class="card-top-img"><div class="hotel-card-body"><div class="hotel-card-name">Hotel SP34 Copenhagen</div><div class="hotel-card-stars">★★★★</div><div class="hotel-card-location">Copenhagen, Giorno 9</div><div class="hotel-card-price">~€135/notte</div></div></div>
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section-alt" id="galleria">
+    <div class="section fade-in" style="padding-bottom:0">
+        <div class="section-header" style="position:relative">
+            <div class="section-label">🖼️ Galleria</div>
+            <h2 class="section-title">Galleria del Viaggio</h2>
+            <p class="section-desc">I momenti più belli che vivrai</p>
+            <button class="gallery-toggle-float" id="galleryToggleFloat" style="position:absolute;top:0;right:0">
+                <span id="galleryToggleFloatIcon">▲</span> Nascondi
+            </button>
+        </div>
+    </div>
+</section>
+<div class="section-alt">
+    <div class="section" style="padding-top:0">
+        <div class="gallery-grid fade-in" id="galleryContent">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-20.png" alt="La Sirenetta" class="img-ph">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-21.png" alt="Tivoli Gardens" class="img-ph">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-22.png" alt="Balena" class="img-ph">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-23.png" alt="Smørrebrød" class="img-ph">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-24.png" alt="Fiordo norvegese" class="img-ph">
+            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-25.png" alt="Tasiilaq" class="img-ph">
+        </div>
+    </div>
+</div>
+
+<!-- SUMMARY -->
+<section class="section-alt" id="riepilogo">
+    <div class="section fade-in" style="padding-bottom:0">
+        <div class="section-header">
+            <div class="section-label">📊 Riepilogo</div>
+            <h2 class="section-title">Riepilogo del Viaggio</h2>
+        </div>
+    </div>
+</section>
+<div class="section-alt">
+    <div class="section" style="padding-top:0">
+        <div class="summary-grid fade-in">
+            <div class="summary-stat"><div class="summary-stat-number">10</div><div class="summary-stat-label">Giorni totali</div></div>
+            <div class="summary-stat"><div class="summary-stat-number">5</div><div class="summary-stat-label">Giorni in crociera</div></div>
+            <div class="summary-stat"><div class="summary-stat-number">3</div><div class="summary-stat-label">Hotel 4★</div></div>
+            <div class="summary-stat"><div class="summary-stat-number">€3.200</div><div class="summary-stat-label">Costo stimato p.p.</div></div>
+        </div>
+        <div class="summary-phases fade-in">
+            <div class="summary-phase"><div class="summary-phase-icon discovery">🏰</div><div><div class="summary-phase-title">Scoperta</div><div class="summary-phase-text">Copenhagen e Roskilde, giorni 1-3</div></div></div>
+            <div class="summary-phase"><div class="summary-phase-icon arctic">🧊</div><div><div class="summary-phase-title">Avventura Artica</div><div class="summary-phase-text">Crociera verso la Groenlandia, giorni 4-8</div></div></div>
+            <div class="summary-phase"><div class="summary-phase-icon return">✈️</div><div><div class="summary-phase-title">Ritorno</div><div class="summary-phase-text">Ultimo giorno a Copenhagen, giorni 9-10</div></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section" id="prenota">
+    <div class="cta-inner fade-in">
+        <h2 class="cta-title">Pronto per la tua avventura artica?</h2>
+        <p class="cta-desc">Prenota ora il tuo viaggio in Danimarca & Groenlandia. Volo + hotel + crociera tutto incluso a partire da €3.200 a persona.</p>
+        <a href="#" class="cta-btn">Prenota ora →</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div>
+            <div class="footer-brand-name">🧊 Danimarca Tour</div>
+            <div class="footer-brand-desc">Viaggi organizzati in Danimarca e Groenlandia. Fiordi, città vichinghe e ghiacciai artici — esperienze indimenticabili.</div>
+        </div>
+        <div>
+            <div class="footer-title">Viaggio</div>
+            <ul class="footer-links">
+                <li><a href="#itinerario">Itinerario</a></li>
+                <li><a href="#crociera">Crociera</a></li>
+                <li><a href="#include">Cosa include</a></li>
+                <li><a href="#hotel">Hotel</a></li>
+            </ul>
+        </div>
+        <div>
+            <div class="footer-title">Info</div>
+            <ul class="footer-links">
+                <li><a href="#info">Informazioni utili</a></li>
+                <li><a href="#volo">Voli</a></li>
+                <li><a href="#riepilogo">Riepilogo</a></li>
+                <li><a href="#prenota">Prenota</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 Danimarca Tour — Tutti i diritti riservati</span>
+        <span>Danimarca & Groenlandia: 10 giorni con Crociera inclusa</span>
+    </div>
+</footer>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-inner" role="dialog" aria-modal="true">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Chiudi">×</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Precedente">‹</button>
+        <img class="lightbox-img" id="lightboxImg" alt="" />
+        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Successiva">›</button>
+    </div>
+</div>
+
+<script>
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Fade-in animation
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Interactive Map - Tramundi Style
+document.addEventListener('DOMContentLoaded', () => {
+    const map = L.map('itinerary-map').setView([56.2639, 10.5018], 5);
+    
+    // Use CartoDB Voyager theme (similar to Tramundi style)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+        attribution: ' OpenStreetMap contributors  CARTO',
+        maxZoom: 19
+    }).addTo(map);
+
+    // Locations aligned with the itinerary on the page
+    const locations = [
+        {coords: [45.6306, 8.7281], number: 1, color: 'gold', label: 'Milano Malpensa (MXP)'},
+        {coords: [55.6181, 12.6560], number: '2/7', color: 'gold', label: 'Aeroporto di Copenaghen (CPH)'},
+        {coords: [55.6419, 12.0878], number: 3, color: 'gold', label: 'Roskilde'},
+        {coords: [57.0488, 9.9217], number: 4, color: 'gold', label: 'Aalborg'},
+        {coords: [60.39299, 5.32415], number: 5, color: 'blue', label: 'Bergen (Fiordi Norvegesi)'},
+        {coords: [65.6140, -37.6360], number: 6, color: 'blue', label: 'Tasiilaq (Groenlandia Est)'},
+        {coords: [64.1814, -51.6941], number: 7, color: 'green', label: 'Nuuk (Groenlandia)'}
+    ];
+
+    function addWaypointRoute(points, isCruise = false) {
+        return L.polyline(points, {
+            color: isCruise ? '#38a169' : '#4a6fa5',
+            weight: isCruise ? 4 : 3,
+            opacity: 0.85,
+            dashArray: isCruise ? '8,4' : null,
+            className: isCruise ? 'route-line cruise' : 'route-line'
+        });
+    }
+
+    // Simplified curved paths for better performance
+    function createSmoothPath(start, end, isCruise = false) {
+        const [lat1, lng1] = start;
+        const [lat2, lng2] = end;
+        
+        // Simple curve calculation
+        const midLat = (lat1 + lat2) / 2;
+        const midLng = (lng1 + lng2) / 2;
+        
+        // Add curve offset
+        const offset = isCruise ? 3 : 0.5;
+        const controlLat = midLat + (lat2 > lat1 ? offset : -offset);
+        const controlLng = midLng + (lng2 - lng1) * 0.2;
+        
+        // Create smooth curve with fewer points
+        const points = [];
+        for (let t = 0; t <= 1; t += 0.1) {
+            const lat = (1-t)*(1-t)*lat1 + 2*(1-t)*t*controlLat + t*t*lat2;
+            const lng = (1-t)*(1-t)*lng1 + 2*(1-t)*t*controlLng + t*t*lng2;
+            points.push([lat, lng]);
+        }
+        
+        return L.polyline(points, {
+            color: isCruise ? '#38a169' : '#4a6fa5',
+            weight: isCruise ? 4 : 3,
+            opacity: 0.8,
+            dashArray: isCruise ? '8,4' : null,
+            className: isCruise ? 'route-line cruise' : 'route-line'
+        });
+    }
+
+    // Special direct path for return Copenhagen (less curved)
+    function createDirectPath(start, end) {
+        return L.polyline([start, end], {
+            color: '#38a169',
+            weight: 4,
+            opacity: 0.8,
+            dashArray: '8,4',
+            className: 'route-line cruise'
+        });
+    }
+
+    // Draw routes
+    createSmoothPath(locations[0].coords, locations[1].coords).addTo(map); // MXP → CPH
+    createSmoothPath(locations[1].coords, locations[2].coords).addTo(map); // CPH → Roskilde
+    createSmoothPath(locations[2].coords, locations[3].coords).addTo(map); // Roskilde → Aalborg
+
+    // Cruise route with waypoints to avoid unrealistic straight cuts
+    addWaypointRoute([
+        locations[3].coords, // Aalborg
+        [57.7220, 10.5830],  // Skagen (north Denmark)
+        locations[4].coords, // Bergen
+        [62.0079, -6.7900],  // Tórshavn (Faroe Islands)
+        [64.1466, -21.9426], // Reykjavík
+        locations[5].coords, // Tasiilaq
+        locations[6].coords  // Nuuk
+    ], true).addTo(map);
+
+    // Return route (air) back to CPH
+    createSmoothPath(locations[6].coords, locations[1].coords).addTo(map);
+
+    // Add markers
+    locations.forEach((loc, index) => {
+        const markerHtml = `<div class="map-marker ${loc.color}">${loc.number}</div>`;
+        const popupContent = loc.number === '2/7' ?
+            `<strong>${loc.label}</strong><br>Seconda ed Ultima tappa` :
+            `<strong>${loc.label}</strong><br>Tappa ${loc.number}`;
+            
+        L.marker(loc.coords, {
+            icon: L.divIcon({
+                html: markerHtml,
+                iconSize: [32, 32],
+                className: 'custom-div-icon'
+            })
+        }).addTo(map).bindPopup(popupContent);
+    });
+});
+
+// Map Legend Toggle
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('mapLegendToggle');
+    const legend = document.querySelector('.map-legend');
+    const icon = document.getElementById('mapLegendToggleIcon');
+
+    if (!toggle || !legend || !icon) return;
+
+    legend.style.display = 'block';
+    toggle.innerHTML = '<span id="mapLegendToggleIcon">▲</span> Legenda';
+
+    toggle.addEventListener('click', () => {
+        const isVisible = legend.style.display !== 'none';
+
+        if (isVisible) {
+            legend.style.display = 'none';
+            toggle.innerHTML = '<span id="mapLegendToggleIcon">▼</span> Legenda';
+        } else {
+            legend.style.display = 'block';
+            toggle.innerHTML = '<span id="mapLegendToggleIcon">▲</span> Legenda';
+        }
+    });
+});
+
+// Gallery Toggle
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('galleryToggleFloat');
+    const content = document.getElementById('galleryContent');
+    
+    // Show gallery by default
+    content.classList.add('expanded');
+    toggle.innerHTML = '<span id="galleryToggleFloatIcon">▲</span> Nascondi';
+    
+    toggle.addEventListener('click', () => {
+        const isExpanded = content.classList.contains('expanded');
+        
+        if (isExpanded) {
+            content.classList.remove('expanded');
+            toggle.innerHTML = '<span id="galleryToggleFloatIcon">▼</span> Mostra';
+        } else {
+            content.classList.add('expanded');
+            toggle.innerHTML = '<span id="galleryToggleFloatIcon">▲</span> Nascondi';
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.getElementById('galleryContent');
+    const lightbox = document.getElementById('lightbox');
+    const imgEl = document.getElementById('lightboxImg');
+    const btnClose = document.getElementById('lightboxClose');
+    const btnPrev = document.getElementById('lightboxPrev');
+    const btnNext = document.getElementById('lightboxNext');
+
+    if (!gallery || !lightbox || !imgEl || !btnClose || !btnPrev || !btnNext) return;
+
+    const images = Array.from(gallery.querySelectorAll('img'));
+    if (images.length === 0) return;
+
+    let currentIndex = 0;
+
+    function openAt(index) {
+        currentIndex = (index + images.length) % images.length;
+        imgEl.src = images[currentIndex].src;
+        imgEl.alt = images[currentIndex].alt || '';
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        imgEl.src = '';
+        document.body.style.overflow = '';
+    }
+
+    function prev() {
+        openAt(currentIndex - 1);
+    }
+
+    function next() {
+        openAt(currentIndex + 1);
+    }
+
+    images.forEach((img, idx) => {
+        img.addEventListener('click', () => openAt(idx));
+    });
+
+    btnClose.addEventListener('click', close);
+    btnPrev.addEventListener('click', prev);
+    btnNext.addEventListener('click', next);
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+    });
+});
+
+// Mobile menu toggle
+const mobileToggle = document.getElementById('mobileToggle');
+const navbarLinks = document.querySelector('.navbar-links');
+mobileToggle.addEventListener('click', () => {
+    const isOpen = navbarLinks.style.display === 'flex';
+    navbarLinks.style.display = isOpen ? 'none' : 'flex';
+    navbarLinks.style.flexDirection = isOpen ? '' : 'column';
+    navbarLinks.style.position = isOpen ? '' : 'absolute';
+    navbarLinks.style.top = isOpen ? '' : '64px';
+    navbarLinks.style.left = isOpen ? '' : '0';
+    navbarLinks.style.right = isOpen ? '' : '0';
+    navbarLinks.style.background = isOpen ? '' : '#fff';
+    navbarLinks.style.padding = isOpen ? '' : '24px';
+    navbarLinks.style.boxShadow = isOpen ? '' : '0 4px 12px rgba(0,0,0,.1)';
+    navbarLinks.style.gap = isOpen ? '' : '16px';
+});
+</script>
+</body>
+</html>
         :root{--primary:#1a365d;--primary-light:#2a4a7f;--accent:#e8a838;--accent-hover:#d4952e;--bg:#fff;--bg-light:#f7f8fa;--bg-warm:#faf8f5;--text:#1a1a2e;--text-light:#5a5a7a;--text-lighter:#8a8aa0;--border:#e2e4e8;--border-light:#f0f1f3;--success:#38a169;--ice:#e0f2fe;--ice-dark:#0c4a6e;--nordic:#4a6fa5;--aurora:#48bb78}
         html{scroll-behavior:smooth}
         body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
