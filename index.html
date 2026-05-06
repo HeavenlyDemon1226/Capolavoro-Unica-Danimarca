@@ -842,12 +842,12 @@ document.addEventListener('DOMContentLoaded', () => {
     createSmoothPath(locations[2].coords, locations[3].coords).addTo(map); // Roskilde → Aalborg
 
     // Cruise legs (smooth, offshore)
-    // 4 → 5 (avoid overland Norway — wider arc over the sea)
-    createSmoothPathVia(locations[3].coords, locations[4].coords, [61.0000, 0.5000], true).addTo(map);
-    // 5 → 6 (avoid Iceland — wider arc)
-    createSmoothPathVia(locations[4].coords, locations[5].coords, [65.0000, -22.0000], true).addTo(map);
-    // 6 → 7 (very curved south to "circumnavigate" Greenland)
-    createSmoothPathVia(locations[5].coords, locations[6].coords, [56.0000, -40.0000], true).addTo(map);
+    // 4 → 5 (avoid overland Norway — smooth arc over the sea)
+    createSmoothPathVia(locations[3].coords, locations[4].coords, [60.0000, 2.0000], true).addTo(map);
+    // 5 → 6 (avoid Iceland — perfect arc)
+    createSmoothPathVia(locations[4].coords, locations[5].coords, [62.3000, -16.8000], true).addTo(map);
+    // 6 → 7 (curved south to "circumnavigate" Greenland)
+    createSmoothPathVia(locations[5].coords, locations[6].coords, [58.0000, -42.0000], true).addTo(map);
 
     // Return route (air) back to CPH
     addWaypointRoute([locations[6].coords, locations[1].coords]).addTo(map);
