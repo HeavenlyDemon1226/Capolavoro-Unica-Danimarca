@@ -232,6 +232,14 @@
         .route-line.cruise{stroke:#38a169;stroke-width:4;stroke-dasharray:8,4;animation:dash 20s linear infinite}
         @keyframes dash{to{stroke-dashoffset:-100}}
         
+        /* Itinerary Toggle */
+        .itinerary-toggle{background:var(--primary);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:500;cursor:pointer;margin-top:12px;transition:all .3s ease;display:flex;align-items:center;gap:8px}
+        .itinerary-toggle:hover{background:var(--primary-light);transform:translateY(-1px)}
+        #itineraryContent{display:none;overflow:hidden;transition:max-height .3s ease}
+        #itineraryContent.expanded{display:block}
+        #toggleIcon{transition:transform .3s ease}
+        #toggleIcon.rotated{transform:rotate(180deg)}
+        
         @media(max-width:768px){#itinerary-map{height:340px}.map-legend{padding:12px 14px;font-size:.75rem;max-width:220px}}
     </style>
 </head>
@@ -343,12 +351,15 @@
             <div class="section-label">📍 Itinerario</div>
             <h2 class="section-title">Il tuo viaggio, giorno per giorno</h2>
             <p class="section-desc">Da Copenhagen ai ghiacciai della Groenlandia e ritorno</p>
+            <button class="itinerary-toggle" id="itineraryToggle">
+                <span id="toggleIcon">▼</span> Mostra itinerario completo
+            </button>
         </div>
     </div>
 </section>
 <div class="section-alt">
     <div class="section" style="padding-top:0">
-        <div class="itinerary-timeline">
+        <div class="itinerary-timeline" id="itineraryContent">
             <div class="itinerary-day fade-in">
                 <div class="itinerary-day-number">Giorno 1</div>
                 <div class="itinerary-day-title">Italia — Copenhagen</div>
@@ -699,7 +710,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {coords: [55.6761, 12.5683], number: 2, color: 'gold', label: 'Copenhagen'},
         {coords: [55.8432, 12.4564], number: 3, color: 'gold', label: 'Roskilde'},
         {coords: [57.0488, 9.9217], number: 4, color: 'gold', label: 'Aalborg'},
-        {coords: [65.6000, -18.9000], number: 5, color: 'blue', label: 'Groenlandia'},
+        {coords: [71.7069, -42.6043], number: 5, color: 'blue', label: 'Groenlandia Est'},
         {coords: [64.1750, -51.7000], number: 6, color: 'blue', label: 'Nuuk'},
         {coords: [55.6761, 12.5683], number: 7, color: 'green', label: 'Copenhagen (Ritorno)'}
     ];
@@ -764,6 +775,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 className: 'custom-div-icon'
             })
         }).addTo(map).bindPopup(`<strong>${loc.label}</strong><br>Tappa ${loc.number}`);
+    });
+});
+
+// Itinerary Toggle
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('itineraryToggle');
+    const content = document.getElementById('itineraryContent');
+    const icon = document.getElementById('toggleIcon');
+    
+    // Show first 3 days by default
+    content.classList.add('expanded');
+    toggle.innerHTML = '<span id="toggleIcon">▲</span> Nascondi itinerario completo';
+    
+    toggle.addEventListener('click', () => {
+        const isExpanded = content.classList.contains('expanded');
+        
+        if (isExpanded) {
+            content.classList.remove('expanded');
+            toggle.innerHTML = '<span id="toggleIcon">▼</span> Mostra itinerario completo';
+        } else {
+            content.classList.add('expanded');
+            toggle.innerHTML = '<span id="toggleIcon">▲</span> Nascondi itinerario completo';
+        }
     });
 });
 
