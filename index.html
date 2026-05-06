@@ -243,10 +243,14 @@
         /* Gallery Toggle */
         .gallery-toggle{background:var(--primary);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:500;cursor:pointer;margin-top:12px;transition:all .3s ease;display:flex;align-items:center;gap:8px}
         .gallery-toggle:hover{background:var(--primary-light);transform:translateY(-1px)}
+        .gallery-toggle-float{background:var(--primary);color:#fff;border:none;padding:8px 12px;border-radius:6px;font-weight:500;cursor:pointer;transition:all .3s ease;display:flex;align-items:center;gap:6px;font-size:.85rem}
+        .gallery-toggle-float:hover{background:var(--primary-light);transform:translateY(-1px)}
         #galleryContent{display:none;overflow:hidden;transition:max-height .3s ease}
         #galleryContent.expanded{display:block}
         #galleryToggleIcon{transition:transform .3s ease}
         #galleryToggleIcon.rotated{transform:rotate(180deg)}
+        #galleryToggleFloatIcon{transition:transform .3s ease}
+        #galleryToggleFloatIcon.rotated{transform:rotate(180deg)}
         
         @media(max-width:768px){#itinerary-map{height:340px}.map-legend{padding:12px 14px;font-size:.75rem;max-width:220px}}
     </style>
@@ -599,12 +603,12 @@
 <!-- GALLERY -->
 <section class="section-alt" id="galleria">
     <div class="section fade-in" style="padding-bottom:0">
-        <div class="section-header">
+        <div class="section-header" style="position:relative">
             <div class="section-label">🖼️ Galleria</div>
             <h2 class="section-title">Galleria del Viaggio</h2>
             <p class="section-desc">I momenti più belli che vivrai</p>
-            <button class="gallery-toggle" id="galleryToggle">
-                <span id="galleryToggleIcon">▼</span> Mostra galleria completa
+            <button class="gallery-toggle-float" id="galleryToggleFloat" style="position:absolute;top:0;right:0">
+                <span id="galleryToggleFloatIcon">▲</span> Nascondi
             </button>
         </div>
     </div>
@@ -814,22 +818,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Gallery Toggle
 document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('galleryToggle');
+    const toggle = document.getElementById('galleryToggleFloat');
     const content = document.getElementById('galleryContent');
     
     // Show gallery by default
     content.classList.add('expanded');
-    toggle.innerHTML = '<span id="galleryToggleIcon">▲</span> Nascondi galleria completa';
+    toggle.innerHTML = '<span id="galleryToggleFloatIcon">▲</span> Nascondi';
     
     toggle.addEventListener('click', () => {
         const isExpanded = content.classList.contains('expanded');
         
         if (isExpanded) {
             content.classList.remove('expanded');
-            toggle.innerHTML = '<span id="galleryToggleIcon">▼</span> Mostra galleria completa';
+            toggle.innerHTML = '<span id="galleryToggleFloatIcon">▼</span> Mostra';
         } else {
             content.classList.add('expanded');
-            toggle.innerHTML = '<span id="galleryToggleIcon">▲</span> Nascondi galleria completa';
+            toggle.innerHTML = '<span id="galleryToggleFloatIcon">▲</span> Nascondi';
         }
     });
 });
