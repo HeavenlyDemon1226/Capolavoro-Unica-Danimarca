@@ -226,6 +226,12 @@
         .map-legend-dot.gold{background:var(--accent)}.map-legend-dot.blue{background:var(--nordic)}.map-legend-dot.green{background:var(--aurora)}
         .map-marker{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#fff;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
         .map-marker.gold{background:var(--accent)}.map-marker.blue{background:var(--nordic)}.map-marker.green{background:var(--aurora)}
+        
+        /* Route lines */
+        .route-line{stroke:#4a6fa5;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+        .route-line.cruise{stroke:#38a169;stroke-width:4;stroke-dasharray:8,4;animation:dash 20s linear infinite}
+        @keyframes dash{to{stroke-dashoffset:-100}}
+        
         @media(max-width:768px){#itinerary-map{height:340px}.map-legend{padding:12px 14px;font-size:.75rem;max-width:220px}}
     </style>
 </head>
@@ -695,6 +701,52 @@ document.addEventListener('DOMContentLoaded', () => {
         {coords: [55.6761, 12.5683], number: 6, color: 'green', label: 'Copenhagen'}
     ];
 
+    // Create curved route lines between consecutive locations
+    function createCurvedPath(start, end, isCruise = false) {
+        const [lat1, lng1] = start;
+        const [lat2, lng2] = end;
+        
+        // Calculate midpoint and add curve
+        const midLat = (lat1 + lat2) / 2;
+        const midLng = (lng1 + lng2) / 2;
+        
+        // Add curve offset based on direction
+        let curveOffset = 0;
+        if (isCruise) {
+            // For cruise routes, create a more pronounced curve
+            curveOffset = lat2 > lat1 ? 2 : -2;
+        } else {
+            // For land routes, subtle curve
+            curveOffset = (lng2 - lng1) * 0.15;
+        }
+        
+        const controlLat = midLat + curveOffset;
+        const controlLng = midLng - (lat2 - lat1) * 0.1;
+        
+        // Create quadratic bezier curve points
+        const points = [];
+        for (let t = 0; t <= 1; t += 0.05) {
+            const lat = Math.pow(1-t, 2) * lat1 + 2 * (1-t) * t * controlLat + Math.pow(t, 2) * lat2;
+            const lng = Math.pow(1-t, 2) * lng1 + 2 * (1-t) * t * controlLng + Math.pow(t, 2) * lng2;
+            points.push([lat, lng]);
+        }
+        
+        return L.polyline(points, {
+            className: isCruise ? 'route-line cruise' : 'route-line',
+            weight: isCruise ? 4 : 3,
+            opacity: 0.8,
+            smoothFactor: 1
+        });
+    }
+
+    // Draw routes
+    createCurvedPath(locations[0].coords, locations[1].coords).addTo(map); // Copenhagen → Roskilde
+    createCurvedPath(locations[1].coords, locations[2].coords).addTo(map); // Roskilde → Aalborg
+    createCurvedPath(locations[2].coords, locations[3].coords, true).addTo(map); // Aalborg → Groenlandia (cruise)
+    createCurvedPath(locations[3].coords, locations[4].coords, true).addTo(map); // Groenlandia → Nuuk (cruise)
+    createCurvedPath(locations[4].coords, locations[5].coords, true).addTo(map); // Nuuk → Copenhagen (cruise)
+
+    // Add markers
     locations.forEach(loc => {
         const markerHtml = `<div class="map-marker ${loc.color}">${loc.number}</div>`;
         L.marker(loc.coords, {
