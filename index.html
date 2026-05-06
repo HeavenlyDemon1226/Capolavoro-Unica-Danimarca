@@ -206,8 +206,19 @@
         .img-ph.card-top{min-height:180px;border-radius:14px 14px 0 0}
         .img-ph.dark{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.08)}
         .img-ph.dark .ph-tag{color:var(--accent)}.img-ph.dark .ph-txt{color:rgba(255,255,255,.6)}.img-ph.dark .ph-icon{color:rgba(255,255,255,.4)}
+        
+        /* Responsive Images */
+        img{width:100%;height:auto;object-fit:cover;border-radius:inherit;transition:transform 0.3s ease}
+        img:hover{transform:scale(1.02)}
+        .itinerary-day-img{border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+        .feature-img{border-radius:14px 14px 0 0;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+        .card-top-img{border-radius:14px 14px 0 0;height:180px;object-fit:cover}
+        .cruise-ship-img{border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+        
         .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
         .gallery-grid .img-ph{min-height:220px}
+        .gallery-grid img{border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);transition:transform 0.3s ease,box-shadow 0.3s ease}
+        .gallery-grid img:hover{transform:scale(1.03);box-shadow:0 8px 24px rgba(0,0,0,.12)}
         .it-day-img{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
         @media(max-width:1024px){.it-day-img{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,1fr)}}
         @media(max-width:768px){.gallery-grid{grid-template-columns:1fr}}
