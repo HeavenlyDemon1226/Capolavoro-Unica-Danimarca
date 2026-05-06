@@ -60,11 +60,13 @@
         .hero-price-features li::before{content:'✓';color:var(--aurora);font-weight:700}
 
         .section{padding:80px 24px;max-width:1280px;margin:0 auto}
-        .section-alt{background:linear-gradient(135deg,var(--bg-light) 0%,rgba(230,240,255,0.3) 50%,var(--bg-light) 100%);border-radius:24px;margin:0 -24px 40px -24px;padding:24px}
+        .section-alt{background:var(--bg-light)}
         .section-header{text-align:center;margin-bottom:48px}
         .section-label{display:inline-block;font-size:.8rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
         .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;color:var(--primary);margin-bottom:12px}
         .section-desc{font-size:1.05rem;color:var(--text-light);max-width:600px;margin:0 auto;text-align:justify}
+
+        body p, body li{text-align:justify}
 
         .itinerary-timeline{position:relative;padding-left:40px}
         .itinerary-timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent),var(--nordic),var(--ice-dark))}
@@ -110,7 +112,7 @@
         .hotel-card-location{font-size:.85rem;color:var(--text-light)}
         .hotel-card-price{font-size:.85rem;color:var(--success);font-weight:600;margin-top:8px}
 
-        .cruise-section{background:linear-gradient(135deg,#0c1e3a,#1a365d,#2a4a7f);color:#fff;padding:80px 24px}
+        .cruise-section{background:radial-gradient(circle at 10% 0%,#2a4a7f 0%,#1a365d 35%,#0c1e3a 80%);color:#fff;padding:80px 24px;border-radius:28px;overflow:hidden;margin:32px 0 48px;box-shadow:0 18px 44px rgba(12,30,58,.18)}
         .cruise-inner{max-width:1280px;margin:0 auto}
         .cruise-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
         .cruise-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(232,168,56,.15);border:1px solid rgba(232,168,56,.3);color:var(--accent);padding:8px 16px;border-radius:100px;font-size:.8rem;font-weight:700;margin-bottom:16px}
@@ -127,7 +129,7 @@
         .cruise-route-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0}
         .cruise-route-line{width:2px;height:20px;background:rgba(255,255,255,.2);margin-left:4px}
 
-        .greenland-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+        .greenland-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
         .greenland-feature{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center;transition:all .3s}
         .greenland-feature:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.06)}
         .greenland-feature-icon{width:48px;height:48px;border-radius:12px;background:var(--ice);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 14px}
