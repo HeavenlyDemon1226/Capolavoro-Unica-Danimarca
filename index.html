@@ -683,12 +683,14 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-// Interactive Map
+// Interactive Map - Tramundi Style
 document.addEventListener('DOMContentLoaded', () => {
     const map = L.map('itinerary-map').setView([56.2639, 10.5018], 5);
     
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
+    // Use CartoDB Voyager theme (similar to Tramundi style)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap contributors © CARTO',
+        maxZoom: 19
     }).addTo(map);
 
     // Custom markers with numbers
@@ -701,50 +703,43 @@ document.addEventListener('DOMContentLoaded', () => {
         {coords: [55.6761, 12.5683], number: 6, color: 'green', label: 'Copenhagen'}
     ];
 
-    // Create curved route lines between consecutive locations
-    function createCurvedPath(start, end, isCruise = false) {
+    // Simplified curved paths for better performance
+    function createSmoothPath(start, end, isCruise = false) {
         const [lat1, lng1] = start;
         const [lat2, lng2] = end;
         
-        // Calculate midpoint and add curve
+        // Simple curve calculation
         const midLat = (lat1 + lat2) / 2;
         const midLng = (lng1 + lng2) / 2;
         
-        // Add curve offset based on direction
-        let curveOffset = 0;
-        if (isCruise) {
-            // For cruise routes, create a more pronounced curve
-            curveOffset = lat2 > lat1 ? 2 : -2;
-        } else {
-            // For land routes, subtle curve
-            curveOffset = (lng2 - lng1) * 0.15;
-        }
+        // Add curve offset
+        const offset = isCruise ? 3 : 0.5;
+        const controlLat = midLat + (lat2 > lat1 ? offset : -offset);
+        const controlLng = midLng + (lng2 - lng1) * 0.2;
         
-        const controlLat = midLat + curveOffset;
-        const controlLng = midLng - (lat2 - lat1) * 0.1;
-        
-        // Create quadratic bezier curve points
+        // Create smooth curve with fewer points
         const points = [];
-        for (let t = 0; t <= 1; t += 0.05) {
-            const lat = Math.pow(1-t, 2) * lat1 + 2 * (1-t) * t * controlLat + Math.pow(t, 2) * lat2;
-            const lng = Math.pow(1-t, 2) * lng1 + 2 * (1-t) * t * controlLng + Math.pow(t, 2) * lng2;
+        for (let t = 0; t <= 1; t += 0.1) {
+            const lat = (1-t)*(1-t)*lat1 + 2*(1-t)*t*controlLat + t*t*lat2;
+            const lng = (1-t)*(1-t)*lng1 + 2*(1-t)*t*controlLng + t*t*lng2;
             points.push([lat, lng]);
         }
         
         return L.polyline(points, {
-            className: isCruise ? 'route-line cruise' : 'route-line',
+            color: isCruise ? '#38a169' : '#4a6fa5',
             weight: isCruise ? 4 : 3,
             opacity: 0.8,
-            smoothFactor: 1
+            dashArray: isCruise ? '8,4' : null,
+            className: isCruise ? 'route-line cruise' : 'route-line'
         });
     }
 
-    // Draw routes
-    createCurvedPath(locations[0].coords, locations[1].coords).addTo(map); // Copenhagen → Roskilde
-    createCurvedPath(locations[1].coords, locations[2].coords).addTo(map); // Roskilde → Aalborg
-    createCurvedPath(locations[2].coords, locations[3].coords, true).addTo(map); // Aalborg → Groenlandia (cruise)
-    createCurvedPath(locations[3].coords, locations[4].coords, true).addTo(map); // Groenlandia → Nuuk (cruise)
-    createCurvedPath(locations[4].coords, locations[5].coords, true).addTo(map); // Nuuk → Copenhagen (cruise)
+    // Draw all routes
+    createSmoothPath(locations[0].coords, locations[1].coords).addTo(map);
+    createSmoothPath(locations[1].coords, locations[2].coords).addTo(map);
+    createSmoothPath(locations[2].coords, locations[3].coords, true).addTo(map);
+    createSmoothPath(locations[3].coords, locations[4].coords, true).addTo(map);
+    createSmoothPath(locations[4].coords, locations[5].coords, true).addTo(map);
 
     // Add markers
     locations.forEach(loc => {
