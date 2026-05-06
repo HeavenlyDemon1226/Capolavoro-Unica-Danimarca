@@ -843,11 +843,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cruise legs (smooth, offshore)
     // 4 → 5 (avoid overland Norway — smooth arc over the sea)
-    createSmoothPathVia(locations[3].coords, locations[4].coords, [60.2000, 0.8000], true).addTo(map);
+    createSmoothPathVia(locations[3].coords, locations[4].coords, [59.5000, 0.8000], true).addTo(map);
     // 5 → 6 (avoid Iceland — perfect arc)
     createSmoothPathVia(locations[4].coords, locations[5].coords, [62.3000, -16.8000], true).addTo(map);
     // 6 → 7 (curved south to "circumnavigate" Greenland)
-    createSmoothPathVia(locations[5].coords, locations[6].coords, [56.5000, -41.0000], true).addTo(map);
+    createSmoothPathVia(locations[5].coords, locations[6].coords, [54.0000, -41.5000], true).addTo(map);
 
     // Return route (air) back to CPH
     addWaypointRoute([locations[6].coords, locations[1].coords]).addTo(map);
