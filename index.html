@@ -789,15 +789,19 @@ document.addEventListener('DOMContentLoaded', () => {
     createDirectPath(locations[5].coords, locations[6].coords).addTo(map); // Nuuk → Copenhagen (direct cruise)
 
     // Add markers
-    locations.forEach(loc => {
+    locations.forEach((loc, index) => {
         const markerHtml = `<div class="map-marker ${loc.color}">${loc.number}</div>`;
+        const popupContent = loc.number === 7 ? 
+            `<strong>Aeroporto di Copenaghen</strong><br>Prima ed Ultima tappa` : 
+            `<strong>${loc.label}</strong><br>Tappa ${loc.number}`;
+            
         L.marker(loc.coords, {
             icon: L.divIcon({
                 html: markerHtml,
                 iconSize: [32, 32],
                 className: 'custom-div-icon'
             })
-        }).addTo(map).bindPopup(`<strong>${loc.label}</strong><br>Tappa ${loc.number}`);
+        }).addTo(map).bindPopup(popupContent);
     });
 });
 
