@@ -217,7 +217,7 @@
         
         .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
         .gallery-grid .img-ph{min-height:220px}
-        .gallery-grid img{border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);transition:transform 0.3s ease,box-shadow 0.3s ease}
+        .gallery-grid img{border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);transition:transform 0.3s ease,box-shadow 0.3s ease;height:160px}
         .gallery-grid img:hover{transform:scale(1.03);box-shadow:0 8px 24px rgba(0,0,0,.12)}
         .it-day-img{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
         @media(max-width:1024px){.it-day-img{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,1fr)}}
@@ -235,6 +235,8 @@
         .map-legend-item{display:flex;align-items:center;gap:8px;margin-bottom:4px;color:var(--text-light)}
         .map-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
         .map-legend-dot.gold{background:var(--accent)}.map-legend-dot.blue{background:var(--nordic)}.map-legend-dot.green{background:var(--aurora)}
+        .map-legend-toggle{position:absolute;top:16px;right:16px;z-index:1001;background:var(--primary);color:#fff;border:none;padding:8px 12px;border-radius:6px;font-weight:500;cursor:pointer;transition:all .3s ease;display:flex;align-items:center;gap:6px;font-size:.85rem}
+        .map-legend-toggle:hover{background:var(--primary-light);transform:translateY(-1px)}
         .map-marker{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#fff;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
         .map-marker.gold{background:var(--accent)}.map-marker.blue{background:var(--nordic)}.map-marker.green{background:var(--aurora)}
         
@@ -242,14 +244,6 @@
         .route-line{stroke:#4a6fa5;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
         .route-line.cruise{stroke:#38a169;stroke-width:4;stroke-dasharray:8,4;animation:dash 20s linear infinite}
         @keyframes dash{to{stroke-dashoffset:-100}}
-        
-        /* Itinerary Toggle */
-        .itinerary-toggle{background:var(--primary);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:500;cursor:pointer;margin-top:12px;transition:all .3s ease;display:flex;align-items:center;gap:8px}
-        .itinerary-toggle:hover{background:var(--primary-light);transform:translateY(-1px)}
-        #itineraryContent{display:none;overflow:hidden;transition:max-height .3s ease}
-        #itineraryContent.expanded{display:block}
-        #toggleIcon{transition:transform .3s ease}
-        #toggleIcon.rotated{transform:rotate(180deg)}
         
         /* Gallery Toggle */
         .gallery-toggle{background:var(--primary);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:500;cursor:pointer;margin-top:12px;transition:all .3s ease;display:flex;align-items:center;gap:8px}
@@ -332,6 +326,7 @@
 <div class="map-section">
     <div class="map-wrap">
         <div id="itinerary-map"></div>
+        <button class="map-legend-toggle" id="mapLegendToggle"><span id="mapLegendToggleIcon">▲</span> Legenda</button>
         <div class="map-legend">
             <div class="map-legend-title">Itinerario del Viaggio</div>
             <div class="map-legend-item"><div class="map-legend-dot gold"></div>Giorno 1-3: Copenhagen & Roskilde</div>
@@ -370,9 +365,6 @@
             <div class="section-label">📍 Itinerario</div>
             <h2 class="section-title">Il tuo viaggio, giorno per giorno</h2>
             <p class="section-desc">Da Copenhagen ai ghiacciai della Groenlandia e ritorno</p>
-            <button class="itinerary-toggle" id="itineraryToggle">
-                <span id="toggleIcon">▼</span> Mostra itinerario completo
-            </button>
         </div>
     </div>
 </section>
@@ -531,7 +523,6 @@
         </div>
         <div class="info-grid fade-in">
             <div class="info-card"><div class="info-card-icon">🌍</div><div class="info-card-title">Geopolitica</div><div class="info-card-text">Monarchia costituzionale, membro NATO e UE, capitale Copenhagen. Include Groenlandia e Isole Faroe.</div></div>
-            <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-8.png" alt="Giorno 9" class="itinerary-day-img">
             <div class="info-card"><div class="info-card-icon">🏛️</div><div class="info-card-title">Cultura</div><div class="info-card-text">Design scandinavo, gastronomia nordica, musei di fama mondiale e il concetto di "hygge": calore e convivialità.</div></div>
             <div class="info-card"><div class="info-card-icon">🌿</div><div class="info-card-title">Paesaggi</div><div class="info-card-text">Pianure, fiordi, dune sabbiose, foreste di betulle e ghiacciai artici in Groenlandia.</div></div>
         </div>
@@ -731,12 +722,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Renumbered locations in travel order
     const locations = [
         {coords: [45.6306, 8.7281], number: 1, color: 'gold', label: 'Milano Malpensa'},
-        {coords: [55.6761, 12.5683], number: 2, color: 'gold', label: 'Copenhagen'},
+        {coords: [55.6181, 12.6560], number: '1/7', color: 'gold', label: 'Aeroporto di Copenaghen'},
         {coords: [55.8432, 12.4564], number: 3, color: 'gold', label: 'Roskilde'},
         {coords: [57.0488, 9.9217], number: 4, color: 'gold', label: 'Aalborg'},
         {coords: [71.7069, -42.6043], number: 5, color: 'blue', label: 'Groenlandia Est'},
-        {coords: [55.6761, 12.5683], number: 2, color: 'gold', label: 'Copenhagen Aeroporto'},
-        {coords: [55.6761, 12.5683], number: 7, color: 'green', label: 'Copenhagen (Ritorno)'}
+        {coords: [64.1814, -51.6941], number: 6, color: 'blue', label: 'Nuuk'}
     ];
 
     // Simplified curved paths for better performance
@@ -782,18 +772,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Draw all routes
-    createSmoothPath(locations[0].coords, locations[1].coords).addTo(map); // Malpensa → Copenhagen
-    createSmoothPath(locations[1].coords, locations[2].coords).addTo(map); // Copenhagen → Roskilde
+    createSmoothPath(locations[0].coords, locations[1].coords).addTo(map); // Malpensa → Aeroporto di Copenaghen
+    createSmoothPath(locations[1].coords, locations[2].coords).addTo(map); // Aeroporto di Copenaghen → Roskilde
     createSmoothPath(locations[2].coords, locations[3].coords).addTo(map); // Roskilde → Aalborg
-    createSmoothPath(locations[3].coords, locations[4].coords, true).addTo(map); // Aalborg → Groenlandia (cruise)
-    createSmoothPath(locations[4].coords, locations[5].coords, true).addTo(map); // Groenlandia → Nuuk (cruise)
-    createDirectPath(locations[5].coords, locations[6].coords).addTo(map); // Nuuk → Copenhagen (direct cruise)
+    createSmoothPath(locations[3].coords, locations[4].coords, true).addTo(map); // Aalborg → Groenlandia Est (cruise)
+    createSmoothPath(locations[4].coords, locations[5].coords, true).addTo(map); // Groenlandia Est → Nuuk (cruise)
+    createDirectPath(locations[5].coords, locations[1].coords).addTo(map); // Nuuk → Aeroporto di Copenaghen (rientro)
 
     // Add markers
     locations.forEach((loc, index) => {
         const markerHtml = `<div class="map-marker ${loc.color}">${loc.number}</div>`;
-        const popupContent = loc.number === 7 ? 
-            `<strong>Aeroporto di Copenaghen</strong><br>Prima ed Ultima tappa` : 
+        const popupContent = loc.number === '1/7' ?
+            `<strong>${loc.label}</strong><br>Seconda ed Ultima tappa` :
             `<strong>${loc.label}</strong><br>Tappa ${loc.number}`;
             
         L.marker(loc.coords, {
@@ -806,25 +796,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Itinerary Toggle
+// Map Legend Toggle
 document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('itineraryToggle');
-    const content = document.getElementById('itineraryContent');
-    const icon = document.getElementById('toggleIcon');
-    
-    // Show first 3 days by default
-    content.classList.add('expanded');
-    toggle.innerHTML = '<span id="toggleIcon">▲</span> Nascondi itinerario completo';
-    
+    const toggle = document.getElementById('mapLegendToggle');
+    const legend = document.querySelector('.map-legend');
+    const icon = document.getElementById('mapLegendToggleIcon');
+
+    if (!toggle || !legend || !icon) return;
+
+    legend.style.display = 'block';
+    toggle.innerHTML = '<span id="mapLegendToggleIcon">▲</span> Legenda';
+
     toggle.addEventListener('click', () => {
-        const isExpanded = content.classList.contains('expanded');
-        
-        if (isExpanded) {
-            content.classList.remove('expanded');
-            toggle.innerHTML = '<span id="toggleIcon">▼</span> Mostra itinerario completo';
+        const isVisible = legend.style.display !== 'none';
+
+        if (isVisible) {
+            legend.style.display = 'none';
+            toggle.innerHTML = '<span id="mapLegendToggleIcon">▼</span> Legenda';
         } else {
-            content.classList.add('expanded');
-            toggle.innerHTML = '<span id="toggleIcon">▲</span> Nascondi itinerario completo';
+            legend.style.display = 'block';
+            toggle.innerHTML = '<span id="mapLegendToggleIcon">▲</span> Legenda';
         }
     });
 });
