@@ -240,6 +240,14 @@
         #toggleIcon{transition:transform .3s ease}
         #toggleIcon.rotated{transform:rotate(180deg)}
         
+        /* Gallery Toggle */
+        .gallery-toggle{background:var(--primary);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:500;cursor:pointer;margin-top:12px;transition:all .3s ease;display:flex;align-items:center;gap:8px}
+        .gallery-toggle:hover{background:var(--primary-light);transform:translateY(-1px)}
+        #galleryContent{display:none;overflow:hidden;transition:max-height .3s ease}
+        #galleryContent.expanded{display:block}
+        #galleryToggleIcon{transition:transform .3s ease}
+        #galleryToggleIcon.rotated{transform:rotate(180deg)}
+        
         @media(max-width:768px){#itinerary-map{height:340px}.map-legend{padding:12px 14px;font-size:.75rem;max-width:220px}}
     </style>
 </head>
@@ -595,12 +603,15 @@
             <div class="section-label">🖼️ Galleria</div>
             <h2 class="section-title">Galleria del Viaggio</h2>
             <p class="section-desc">I momenti più belli che vivrai</p>
+            <button class="gallery-toggle" id="galleryToggle">
+                <span id="galleryToggleIcon">▼</span> Mostra galleria completa
+            </button>
         </div>
     </div>
 </section>
 <div class="section-alt">
     <div class="section" style="padding-top:0">
-        <div class="gallery-grid fade-in">
+        <div class="gallery-grid fade-in" id="galleryContent">
             <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 20 — La Sirenetta</div><div class="ph-txt">Statua della Sirenetta di Copenhagen sul lungomare. 600×400px.</div></div>
             <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 21 — Tivoli Gardens</div><div class="ph-txt">Tivoli Gardens di sera: luci, giostre illuminate, atmosfera magica. 600×400px.</div></div>
             <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 22 — Balena</div><div class="ph-txt">Balena che emerge dalle acque artiche, vista dalla nave. Spruzzi d'acqua. 600×400px.</div></div>
@@ -797,6 +808,28 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             content.classList.add('expanded');
             toggle.innerHTML = '<span id="toggleIcon">▲</span> Nascondi itinerario completo';
+        }
+    });
+});
+
+// Gallery Toggle
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('galleryToggle');
+    const content = document.getElementById('galleryContent');
+    
+    // Show gallery by default
+    content.classList.add('expanded');
+    toggle.innerHTML = '<span id="galleryToggleIcon">▲</span> Nascondi galleria completa';
+    
+    toggle.addEventListener('click', () => {
+        const isExpanded = content.classList.contains('expanded');
+        
+        if (isExpanded) {
+            content.classList.remove('expanded');
+            toggle.innerHTML = '<span id="galleryToggleIcon">▼</span> Mostra galleria completa';
+        } else {
+            content.classList.add('expanded');
+            toggle.innerHTML = '<span id="galleryToggleIcon">▲</span> Nascondi galleria completa';
         }
     });
 });
