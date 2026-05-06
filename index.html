@@ -195,6 +195,21 @@
             .itinerary-day::before{left:-28px;width:10px;height:10px}
         }
 
+        /* IMAGE PLACEHOLDERS */
+        .img-ph{position:relative;background:#e8ecf2;border:2px dashed #c8d0dc;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#8a8aa0;min-height:200px}
+        .img-ph .ph-icon{font-size:2rem;margin-bottom:6px;opacity:.5}
+        .img-ph .ph-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--nordic);margin-bottom:4px}
+        .img-ph .ph-txt{font-size:.78rem;color:var(--text-light);max-width:300px;line-height:1.4;padding:0 12px}
+        .img-ph.wide{min-height:320px;border-radius:16px}
+        .img-ph.card-top{min-height:180px;border-radius:14px 14px 0 0}
+        .img-ph.dark{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.08)}
+        .img-ph.dark .ph-tag{color:var(--accent)}.img-ph.dark .ph-txt{color:rgba(255,255,255,.6)}.img-ph.dark .ph-icon{color:rgba(255,255,255,.4)}
+        .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+        .gallery-grid .img-ph{min-height:220px}
+        .it-day-img{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+        @media(max-width:1024px){.it-day-img{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:768px){.gallery-grid{grid-template-columns:1fr}}
+
         .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
         .fade-in.visible{opacity:1;transform:translateY(0)}
     </style>
@@ -211,6 +226,7 @@
             <a href="#include">Include</a>
             <a href="#info">Info</a>
             <a href="#hotel">Hotel</a>
+            <a href="#galleria">Galleria</a>
             <a href="#riepilogo">Riepilogo</a>
             <a href="#prenota" class="navbar-cta">Prenota ora</a>
         </div>
@@ -255,6 +271,15 @@
     </div>
 </section>
 
+<!-- IMAGE 1 — Hero Banner -->
+<div style="max-width:1280px;margin:0 auto;padding:0 24px">
+    <div class="img-ph wide fade-in" style="margin-top:-40px;position:relative;z-index:10">
+        <div class="ph-icon">📸</div>
+        <div class="ph-tag">IMAGE 1 — Hero Banner</div>
+        <div class="ph-txt">Vista panoramica di Copenhagen dal canale di Nyhavn con le case colorate riflesse nell'acqua, cielo blu nordico. Orizzontale, 1920×800px.</div>
+    </div>
+</div>
+
 <!-- FLIGHT -->
 <section class="section" id="volo">
     <div class="section-header fade-in">
@@ -293,16 +318,22 @@
             <div class="itinerary-day fade-in">
                 <div class="itinerary-day-number">Giorno 1</div>
                 <div class="itinerary-day-title">Italia — Copenhagen</div>
-                <div class="itinerary-day-desc"><p>Volo da Milano Malpensa a Copenhagen. Arrivo e trasferimento in hotel. Prima serata libera per esplorare la città.</p></div>
-                <div class="itinerary-highlights"><span class="itinerary-highlight">✈️ Volo diretto</span><span class="itinerary-highlight">🧳 Trasferimento hotel</span></div>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc"><p>Volo da Milano Malpensa a Copenhagen. Arrivo e trasferimento in hotel. Prima serata libera per esplorare la città.</p>
+                    <div class="itinerary-highlights"><span class="itinerary-highlight">✈️ Volo diretto</span><span class="itinerary-highlight">🧳 Trasferimento hotel</span></div></div>
+                    <div class="img-ph wide"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 2 — Giorno 1</div><div class="ph-txt">Aereo che atterra a Copenhagen Airport o vista aerea della città dall'alto. Orizzontale, 800×500px.</div></div>
+                </div>
             </div>
             <div class="itinerary-day fade-in">
                 <div class="itinerary-day-number">Giorno 2</div>
                 <div class="itinerary-day-title">Copenhagen, la Città delle Sirene</div>
-                <div class="itinerary-day-desc">
-                    <p><strong>Nyhavn & Centro Storico</strong> — Passeggiata lungo il canale più fotografato d'Europa, visita alla Sirenetta e al Palazzo di Amalienborg.</p>
-                    <p><strong>Tivoli Gardens</strong> — Il parco di divertimenti più antico del mondo, aperto dal 1843. Un'esperienza magica anche di sera.</p>
-                    <p><strong>Castello di Rosenborg</strong> — Gioielli della Corona reale danese e giardini reali, cuore storico della città.</p>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc">
+                        <p><strong>Nyhavn & Centro Storico</strong> — Passeggiata lungo il canale più fotografato d'Europa, visita alla Sirenetta e al Palazzo di Amalienborg.</p>
+                        <p><strong>Tivoli Gardens</strong> — Il parco di divertimenti più antico del mondo, aperto dal 1843. Un'esperienza magica anche di sera.</p>
+                        <p><strong>Castello di Rosenborg</strong> — Gioielli della Corona reale danese e giardini reali, cuore storico della città.</p>
+                    </div>
+                    <div class="img-ph wide"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 3 — Giorno 2</div><div class="ph-txt">Canale di Nyhavn con le iconiche case colorate (gialla, rossa, blu) riflesse nell'acqua, barche ormeggiate. Orizzontale, 800×500px.</div></div>
                 </div>
                 <div class="itinerary-highlights"><span class="itinerary-highlight">🏛️ Nyhavn</span><span class="itinerary-highlight">🎢 Tivoli</span><span class="itinerary-highlight">👑 Rosenborg</span></div>
                 <div class="itinerary-hotel"><span style="font-size:1.1rem">🏨</span><div><div class="itinerary-hotel-name">Wakeup Copenhagen Borgergade ★★★★</div><div class="itinerary-hotel-detail">Design moderno, posizione centrale — ~€110/notte</div></div></div>
@@ -310,9 +341,12 @@
             <div class="itinerary-day fade-in">
                 <div class="itinerary-day-number">Giorno 3</div>
                 <div class="itinerary-day-title">Roskilde & Partenza per il Nord</div>
-                <div class="itinerary-day-desc">
-                    <p>A soli 30 minuti da Copenhagen, <strong>Roskilde</strong> custodisce il celebre Museo delle Navi Vichinghe con imbarcazioni originali del X secolo. La cattedrale gotica, Patrimonio UNESCO, ospita le tombe di 40 re danesi.</p>
-                    <p>Nel pomeriggio spostamento in treno verso <strong>Aalborg</strong>, da dove salperà la crociera.</p>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc">
+                        <p>A soli 30 minuti da Copenhagen, <strong>Roskilde</strong> custodisce il celebre Museo delle Navi Vichinghe con imbarcazioni originali del X secolo. La cattedrale gotica, Patrimonio UNESCO, ospita le tombe di 40 re danesi.</p>
+                        <p>Nel pomeriggio spostamento in treno verso <strong>Aalborg</strong>, da dove salperà la crociera.</p>
+                    </div>
+                    <div class="img-ph wide"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 4 — Giorno 3</div><div class="ph-txt">Museo delle Navi Vichinghe di Roskilde: le 5 navi originali esposte o la Cattedrale di Roskilde in mattoni rossi gotici. Orizzontale, 800×500px.</div></div>
                 </div>
                 <div class="itinerary-highlights"><span class="itinerary-highlight">⛵ Museo Vichingo</span><span class="itinerary-highlight">⛪ Cattedrale UNESCO</span><span class="itinerary-highlight">🚂 Treno Aalborg</span></div>
                 <div class="itinerary-hotel"><span style="font-size:1.1rem">🏨</span><div><div class="itinerary-hotel-name">Comwell Hvide Hus Aalborg ★★★★</div><div class="itinerary-hotel-detail">Vista sul fiordo — ~€120/notte</div></div></div>
@@ -320,10 +354,17 @@
             <div class="itinerary-day fade-in" style="border-color:var(--nordic);border-width:2px">
                 <div class="itinerary-day-number" style="color:var(--nordic)">Giorni 4–8</div>
                 <div class="itinerary-day-title">🚢 La Crociera Artica — Verso la Groenlandia</div>
-                <div class="itinerary-day-desc">
-                    <p>Il cuore del viaggio: crociera di 4 giorni a bordo di una nave di medie dimensioni, ideale per esplorare le acque artiche.</p>
-                    <p><strong>Rotta:</strong> Aalborg → Fiordi Norvegesi → Tasiilaq (Groenlandia Est) → Nuuk → Rientro.</p>
-                    <p>Escursioni guidate: kayak tra gli iceberg, trekking sulla tundra, avvistamento di balene e foche, incontro con le comunità Inuit. Le notti regalano spesso l'<strong>Aurora Boreale</strong> (settembre–marzo).</p>
+                <div class="img-ph wide fade-in" style="margin-bottom:16px"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 5 — Crociera Artica (panoramica)</div><div class="ph-txt">Nave da crociera Hurtigruten tra iceberg giganti in mare artico, acqua blu scura e ghiaccio bianco/azzurro. Atmosfera epica. Orizzontale, 1200×500px.</div></div>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc">
+                        <p>Il cuore del viaggio: crociera di 4 giorni a bordo di una nave di medie dimensioni, ideale per esplorare le acque artiche.</p>
+                        <p><strong>Rotta:</strong> Aalborg → Fiordi Norvegesi → Tasiilaq (Groenlandia Est) → Nuuk → Rientro.</p>
+                        <p>Escursioni guidate: kayak tra gli iceberg, trekking sulla tundra, avvistamento di balene e foche, incontro con le comunità Inuit. Le notti regalano spesso l'<strong>Aurora Boreale</strong> (settembre–marzo).</p>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:12px">
+                        <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 6 — Kayak iceberg</div><div class="ph-txt">Kayak tra iceberg giganti in Groenlandia, persona in kayak con montagne di ghiaccio sullo sfondo. 800×400px.</div></div>
+                        <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 7 — Aurora Boreale</div><div class="ph-txt">Aurora Boreale verde/viola sul mare artico vista dalla nave, riflesso sull'acqua. 800×400px.</div></div>
+                    </div>
                 </div>
                 <div class="itinerary-highlights"><span class="itinerary-highlight">🛶 Kayak</span><span class="itinerary-highlight">🐋 Balene</span><span class="itinerary-highlight">🌌 Aurora</span><span class="itinerary-highlight">🏔️ Trekking</span></div>
                 <div class="itinerary-hotel"><span style="font-size:1.1rem">🚢</span><div><div class="itinerary-hotel-name">Hurtigruten MS Maud (o simile)</div><div class="itinerary-hotel-detail">Cabine doppie con oblò, ristorante nordico — ~€1.400/persona</div></div></div>
@@ -331,14 +372,20 @@
             <div class="itinerary-day fade-in">
                 <div class="itinerary-day-number">Giorno 9</div>
                 <div class="itinerary-day-title">Rientro dalla Crociera</div>
-                <div class="itinerary-day-desc"><p>Sbarco ad Aalborg o Copenhagen. Trasferimento in treno verso la capitale (~1h 15min). Check-in in hotel e cena libera nel quartiere <strong>Vesterbro</strong>, con i suoi ristoranti alla moda e il mercato di Torvehallerne.</p></div>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc"><p>Sbarco ad Aalborg o Copenhagen. Trasferimento in treno verso la capitale (~1h 15min). Check-in in hotel e cena libera nel quartiere <strong>Vesterbro</strong>, con i suoi ristoranti alla moda e il mercato di Torvehallerne.</p></div>
+                    <div class="img-ph wide"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 8 — Giorno 9</div><div class="ph-txt">Quartiere Vesterbro di Copenhagen: strada con caffè, ristoranti alla moda, biciclette danesi. Atmosfera hygge serale. Orizzontale, 800×500px.</div></div>
+                </div>
                 <div class="itinerary-highlights"><span class="itinerary-highlight">🚂 Treno CPH</span><span class="itinerary-highlight">🍽️ Vesterbro</span><span class="itinerary-highlight">🏪 Torvehallerne</span></div>
                 <div class="itinerary-hotel"><span style="font-size:1.1rem">🏨</span><div><div class="itinerary-hotel-name">Hotel SP34 Copenhagen ★★★★</div><div class="itinerary-hotel-detail">Boutique hotel quartiere Latino — ~€135/notte</div></div></div>
             </div>
             <div class="itinerary-day fade-in">
                 <div class="itinerary-day-number">Giorno 10</div>
                 <div class="itinerary-day-title">L'Ultimo Giorno a Copenhagen</div>
-                <div class="itinerary-day-desc"><p>Mattinata al <strong>Designmuseum Danmark</strong> o shopping a <strong>Strøget</strong>, la via pedonale più lunga d'Europa. Pranzo tipico con smørrebrød e volo di rientro.</p></div>
+                <div class="it-day-img">
+                    <div class="itinerary-day-desc"><p>Mattinata al <strong>Designmuseum Danmark</strong> o shopping a <strong>Strøget</strong>, la via pedonale più lunga d'Europa. Pranzo tipico con smørrebrød e volo di rientro.</p></div>
+                    <div class="img-ph wide"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 9 — Giorno 10</div><div class="ph-txt">Via pedonale Strøget a Copenhagen con vetrine design danese, persone che camminano, architettura nordica. Orizzontale, 800×500px.</div></div>
+                </div>
                 <div class="itinerary-highlights"><span class="itinerary-highlight">🎨 Designmuseum</span><span class="itinerary-highlight">🛍️ Strøget</span><span class="itinerary-highlight">🥪 Smørrebrød</span></div>
             </div>
         </div>
@@ -361,6 +408,7 @@
                 </div>
             </div>
             <div class="cruise-visual fade-in">
+                <div class="img-ph wide dark" style="min-height:280px;margin-bottom:16px"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 10 — Nave da crociera</div><div class="ph-txt">Hurtigruten MS Maud (o nave simile) in navigazione tra i fiordi, vista laterale della nave con paesaggio norvegese sullo sfondo. 800×400px.</div></div>
                 <div class="cruise-ship-icon">🚢</div>
                 <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:8px">Rotta della Crociera</h3>
                 <p style="font-size:.85rem;color:rgba(255,255,255,.5)">Aalborg → Groenlandia → Ritorno</p>
@@ -388,9 +436,15 @@
         <p class="section-desc">Ghiacciai, cultura Inuit e paesaggi mozzafiato</p>
     </div>
     <div class="greenland-features">
-        <div class="greenland-feature fade-in"><div class="greenland-feature-icon">🧊</div><div class="greenland-feature-title">Iceberg e Fiordi</div><div class="greenland-feature-text">Il Fiordo di Ilulissat, Patrimonio UNESCO, ospita i ghiacciai più attivi dell'emisfero nord. Uno spettacolo mozzafiato.</div></div>
-        <div class="greenland-feature fade-in"><div class="greenland-feature-icon">🏘️</div><div class="greenland-feature-title">Nuuk, la Capitale</div><div class="greenland-feature-text">La capitale più settentrionale del mondo. Casa Coloniale, Museo Nazionale con le famose mummie di Qilakitsoq.</div></div>
-        <div class="greenland-feature fade-in"><div class="greenland-feature-icon">🪈</div><div class="greenland-feature-title">Cultura Inuit</div><div class="greenland-feature-text">Incontro autentico con le comunità locali: tradizioni millenarie, cucina artica e canti di gola unici al mondo.</div></div>
+        <div class="greenland-feature fade-in">
+            <div class="img-ph card-top"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 11 — Iceberg Ilulissat</div><div class="ph-txt">Ghiacciai giganti del Fiordo di Ilulissat, iceberg azzurri che si staccano in mare. Panoramica. 600×350px.</div></div>
+            <div class="greenland-feature-icon">🧊</div><div class="greenland-feature-title">Iceberg e Fiordi</div><div class="greenland-feature-text">Il Fiordo di Ilulissat, Patrimonio UNESCO, ospita i ghiacciai più attivi dell'emisfero nord. Uno spettacolo mozzafiato.</div></div>
+        <div class="greenland-feature fade-in">
+            <div class="img-ph card-top"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 12 — Nuuk</div><div class="ph-txt">Panoramica di Nuuk, la capitale della Groenlandia: case colorate sul fiordo, montagne sullo sfondo. 600×350px.</div></div>
+            <div class="greenland-feature-icon">🏘️</div><div class="greenland-feature-title">Nuuk, la Capitale</div><div class="greenland-feature-text">La capitale più settentrionale del mondo. Casa Coloniale, Museo Nazionale con le famose mummie di Qilakitsoq.</div></div>
+        <div class="greenland-feature fade-in">
+            <div class="img-ph card-top"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 13 — Cultura Inuit</div><div class="ph-txt">Comunità Inuit di Tasiilaq: persone in abiti tradizionali, kayak, o villaggio colorato sulla neve. 600×350px.</div></div>
+            <div class="greenland-feature-icon">🪈</div><div class="greenland-feature-title">Cultura Inuit</div><div class="greenland-feature-text">Incontro autentico con le comunità locali: tradizioni millenarie, cucina artica e canti di gola unici al mondo.</div></div>
     </div>
 </section>
 
@@ -406,6 +460,10 @@
 </section>
 <div class="section-alt">
     <div class="section" style="padding-top:0">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px" class="fade-in">
+            <div class="img-ph wide"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 14 — Danimarca</div><div class="ph-txt">Paesaggio danese: pianure verdi, fiordi, biciclette, o vista di Copenhagen con la Sirenetta. Orizzontale, 800×500px.</div></div>
+            <div class="img-ph wide"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 15 — Hygge danese</div><div class="ph-txt">Interno accogliente di un caffè danese con candele, legno, design scandinavo. Atmosfera hygge. Orizzontale, 800×500px.</div></div>
+        </div>
         <div class="info-grid fade-in">
             <div class="info-card"><div class="info-card-icon">🌍</div><div class="info-card-title">Geopolitica</div><div class="info-card-text">Monarchia costituzionale, membro NATO e UE, capitale Copenhagen. Include Groenlandia e Isole Faroe.</div></div>
             <div class="info-card"><div class="info-card-icon">🏛️</div><div class="info-card-title">Cultura</div><div class="info-card-text">Design scandinavo, gastronomia nordica, musei di fama mondiale e il concetto di "hygge": calore e convivialità.</div></div>
@@ -478,12 +536,35 @@
         <p class="section-desc">Le strutture potrebbero essere sostituite con soluzioni di pari livello</p>
     </div>
     <div class="hotels-grid fade-in">
-        <div class="hotel-card"><div class="hotel-card-img">🏨</div><div class="hotel-card-body"><div class="hotel-card-name">Wakeup Copenhagen Borgergade</div><div class="hotel-card-stars">★★★★</div><div class="hotel-card-location">Copenhagen, Giorni 1-2</div><div class="hotel-card-price">~€110/notte</div></div></div>
-        <div class="hotel-card"><div class="hotel-card-img">🏨</div><div class="hotel-card-body"><div class="hotel-card-name">Comwell Hvide Hus Aalborg</div><div class="hotel-card-stars">★★★★</div><div class="hotel-card-location">Aalborg, Giorno 3</div><div class="hotel-card-price">~€120/notte</div></div></div>
-        <div class="hotel-card"><div class="hotel-card-img">🚢</div><div class="hotel-card-body"><div class="hotel-card-name">Hurtigruten MS Maud</div><div class="hotel-card-stars">Crociera Premium</div><div class="hotel-card-location">Giorni 4-8, Mare Artico</div><div class="hotel-card-price">~€1.400/pp (5 gg)</div></div></div>
-        <div class="hotel-card"><div class="hotel-card-img">🏨</div><div class="hotel-card-body"><div class="hotel-card-name">Hotel SP34 Copenhagen</div><div class="hotel-card-stars">★★★★</div><div class="hotel-card-location">Copenhagen, Giorno 9</div><div class="hotel-card-price">~€135/notte</div></div></div>
+        <div class="hotel-card"><div class="img-ph card-top"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 16 — Hotel Wakeup</div><div class="ph-txt">Wakeup Copenhagen Borgergade: esterno moderno o lobby design. 600×300px.</div></div><div class="hotel-card-body"><div class="hotel-card-name">Wakeup Copenhagen Borgergade</div><div class="hotel-card-stars">★★★★</div><div class="hotel-card-location">Copenhagen, Giorni 1-2</div><div class="hotel-card-price">~€110/notte</div></div></div>
+        <div class="hotel-card"><div class="img-ph card-top"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 17 — Comwell Aalborg</div><div class="ph-txt">Comwell Hvide Hus Aalborg: vista sul fiordo, esterno o ristorante. 600×300px.</div></div><div class="hotel-card-body"><div class="hotel-card-name">Comwell Hvide Hus Aalborg</div><div class="hotel-card-stars">★★★★</div><div class="hotel-card-location">Aalborg, Giorno 3</div><div class="hotel-card-price">~€120/notte</div></div></div>
+        <div class="hotel-card"><div class="img-ph card-top"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 18 — MS Maud cabina</div><div class="ph-txt">Cabina doppia della Hurtigruten MS Maud con oblò, interno accogliente nordico. 600×300px.</div></div><div class="hotel-card-body"><div class="hotel-card-name">Hurtigruten MS Maud</div><div class="hotel-card-stars">Crociera Premium</div><div class="hotel-card-location">Giorni 4-8, Mare Artico</div><div class="hotel-card-price">~€1.400/pp (5 gg)</div></div></div>
+        <div class="hotel-card"><div class="img-ph card-top"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 19 — Hotel SP34</div><div class="ph-txt">Hotel SP34 Copenhagen: boutique hotel, lobby design scandinavo, colazione. 600×300px.</div></div><div class="hotel-card-body"><div class="hotel-card-name">Hotel SP34 Copenhagen</div><div class="hotel-card-stars">★★★★</div><div class="hotel-card-location">Copenhagen, Giorno 9</div><div class="hotel-card-price">~€135/notte</div></div></div>
     </div>
 </section>
+
+<!-- GALLERY -->
+<section class="section-alt" id="galleria">
+    <div class="section fade-in" style="padding-bottom:0">
+        <div class="section-header">
+            <div class="section-label">🖼️ Galleria</div>
+            <h2 class="section-title">Galleria del Viaggio</h2>
+            <p class="section-desc">I momenti più belli che vivrai</p>
+        </div>
+    </div>
+</section>
+<div class="section-alt">
+    <div class="section" style="padding-top:0">
+        <div class="gallery-grid fade-in">
+            <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 20 — La Sirenetta</div><div class="ph-txt">Statua della Sirenetta di Copenhagen sul lungomare. 600×400px.</div></div>
+            <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 21 — Tivoli Gardens</div><div class="ph-txt">Tivoli Gardens di sera: luci, giostre illuminate, atmosfera magica. 600×400px.</div></div>
+            <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 22 — Balena</div><div class="ph-txt">Balena che emerge dalle acque artiche, vista dalla nave. Spruzzi d'acqua. 600×400px.</div></div>
+            <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 23 — Smørrebrød</div><div class="ph-txt">Piatto di smørrebrød (tartine nordiche danesi) su tagliere di legno, accostamento elegante. 600×400px.</div></div>
+            <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 24 — Fiordo norvegese</div><div class="ph-txt">Fiordo norvegese visto dalla nave: montagne a picco sull'acqua, cascate. 600×400px.</div></div>
+            <div class="img-ph"><div class="ph-icon">📸</div><div class="ph-tag">IMAGE 25 — Tasiilaq</div><div class="ph-txt">Villaggio di Tasiilaq in Groenlandia Est: case colorate sulla neve, montagne sullo sfondo. 600×400px.</div></div>
+        </div>
+    </div>
+</div>
 
 <!-- SUMMARY -->
 <section class="section-alt" id="riepilogo">
