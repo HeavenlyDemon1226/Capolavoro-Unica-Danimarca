@@ -99,6 +99,9 @@
         .info-card-icon{width:48px;height:48px;border-radius:12px;background:var(--ice);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:14px}
         .info-card-title{font-weight:700;color:var(--primary);margin-bottom:6px;font-size:.95rem}
         .info-card-text{font-size:.9rem;color:var(--text-light);line-height:1.6;text-align:justify}
+        .info-card.centered{text-align:center}
+        .info-card.centered .info-card-icon{margin-left:auto;margin-right:auto}
+        .info-card.centered .info-card-text{text-align:center}
 
         .hotels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
         .hotel-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .3s}
@@ -127,7 +130,7 @@
         .cruise-route-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0}
         .cruise-route-line{width:2px;height:20px;background:rgba(255,255,255,.2);margin-left:4px}
 
-        .greenland-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+        .greenland-features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
         .greenland-feature{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center;transition:all .3s;display:flex;flex-direction:column;justify-content:flex-start}
         .greenland-feature:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.06)}
         .greenland-feature-icon{width:48px;height:48px;border-radius:12px;background:var(--ice);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 14px}
@@ -179,7 +182,8 @@
         .footer-links a:hover{color:var(--accent)}
         .footer-bottom{max-width:1280px;margin:32px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;font-size:.8rem}
 
-        @media(max-width:1024px){.hero-price-card{display:none}.cruise-grid{grid-template-columns:1fr}}
+        @media(max-width:1024px){.hero-price-card{display:none}.cruise-grid{grid-template-columns:1fr}.greenland-features{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:640px){.greenland-features{grid-template-columns:1fr}}
         @media(max-width:768px){
             .navbar-links{display:none}.mobile-toggle{display:block}
             .hero-meta{flex-direction:column;gap:16px}
@@ -224,13 +228,14 @@
         .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:5000;display:none;align-items:center;justify-content:center;padding:24px}
         .lightbox.open{display:flex}
         .lightbox-inner{position:relative;max-width:min(1100px,92vw);max-height:86vh;width:100%;display:flex;align-items:center;justify-content:center}
-        .lightbox-img{max-width:100%;max-height:86vh;border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.45);object-fit:contain;background:rgba(255,255,255,.06)}
-        .lightbox-close{position:absolute;top:-12px;right:-12px;width:42px;height:42px;border-radius:999px;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+        .lightbox-img{max-width:100%;max-height:86vh;border-radius:14px;box-shadow:0 16px 48px rgba(0,0,0,.45);object-fit:contain;background:rgba(255,255,255,.06);transform:none !important}
+        .lightbox-img:hover{transform:none !important}
+        .lightbox-close{position:absolute;top:-12px;right:-12px;width:42px;height:42px;border-radius:999px;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:3}
         .lightbox-close:hover{background:rgba(255,255,255,.22)}
-        .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:999px;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+        .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:999px;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:3}
         .lightbox-nav:hover{background:rgba(255,255,255,.22)}
-        .lightbox-prev{left:-16px}
-        .lightbox-next{right:-16px}
+        .lightbox-prev{left:12px}
+        .lightbox-next{right:12px}
         @media(max-width:768px){.lightbox-prev{left:-6px}.lightbox-next{right:-6px}.lightbox-close{top:-8px;right:-8px}}
         .it-day-img{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
         @media(max-width:1024px){.it-day-img{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,1fr)}}
@@ -385,13 +390,22 @@
     <div class="greenland-features">
         <div class="greenland-feature fade-in">
             <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-11.png" alt="Iceberg Ilulissat" class="feature-img">
-            <div class="greenland-feature-icon">🧊</div><div class="greenland-feature-title">Iceberg e Fiordi</div><div class="greenland-feature-text">Il Fiordo di Ilulissat, Patrimonio UNESCO dal 2004, produce oltre 20 milioni di tonnellate di ghiaccio giornaliere. Il Sermeq Kujalleq, tra i ghiacciai più attivi e veloci del mondo, offre uno spettacolo naturale di rara bellezza, con iceberg alti oltre 100 metri che navigano verso la baia di Disko.</div></div></div>
+            <div class="greenland-feature-icon">🧊</div>
+            <div class="greenland-feature-title">Iceberg e Fiordi</div>
+            <div class="greenland-feature-text">Il Fiordo di Ilulissat, Patrimonio UNESCO dal 2004, produce oltre 20 milioni di tonnellate di ghiaccio giornaliere. Il Sermeq Kujalleq, tra i ghiacciai più attivi e veloci del mondo, offre uno spettacolo naturale di rara bellezza, con iceberg alti oltre 100 metri che navigano verso la baia di Disko.</div>
+        </div>
         <div class="greenland-feature fade-in">
             <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-12.png" alt="Nuuk" class="feature-img">
-            <div class="greenland-feature-icon">🏘️</div><div class="greenland-feature-title">Nuuk, la Capitale</div><div class="greenland-feature-text">Con 19.000 abitanti, Nuuk è la capitale più piccola e settentrionale del mondo. La Casa Coloniale del 1728 testimonia 250 anni di storia danese. Il Museo Nazionale ospita le mummie di Qilakitsoq, conservate perfettamente per 500 anni, un'eccezionale finestra sulla cultura Thule.</div></div>
+            <div class="greenland-feature-icon">🏘️</div>
+            <div class="greenland-feature-title">Nuuk, la Capitale</div>
+            <div class="greenland-feature-text">Con 19.000 abitanti, Nuuk è la capitale più piccola e settentrionale del mondo. La Casa Coloniale del 1728 testimonia 250 anni di storia danese. Il Museo Nazionale ospita le mummie di Qilakitsoq, conservate perfettamente per 500 anni, un'eccezionale finestra sulla cultura Thule.</div>
+        </div>
         <div class="greenland-feature fade-in">
             <img src="https://raw.githubusercontent.com/HeavenlyDemon1226/Danimarca-Sito/main/image-13.png" alt="Cultura Inuit" class="feature-img">
-            <div class="greenland-feature-icon">🪈</div><div class="greenland-feature-title">Cultura Inuit</div><div class="greenland-feature-text">Patrimonio culturale millenario tramandato oralmente per generazioni. Artigianato tradizionale in ossa di balena e pietra sapone. Gastronomia basata su prodotti selvatici: mattacce, foche, balene e bacche artiche. Il canto di gola katajjaq, tecnica vocale unica al mondo, rappresenta l'anima della cultura inuit contemporanea.</div></div>
+            <div class="greenland-feature-icon">🪈</div>
+            <div class="greenland-feature-title">Cultura Inuit</div>
+            <div class="greenland-feature-text">Patrimonio culturale millenario tramandato oralmente per generazioni. Artigianato tradizionale in ossa di balena e pietra sapone. Gastronomia basata su prodotti selvatici: mattacce, foche, balene e bacche artiche. Il canto di gola katajjaq, tecnica vocale unica al mondo, rappresenta l'anima della cultura inuit contemporanea.</div>
+        </div>
     </div>
 </section>
 
@@ -596,8 +610,8 @@
             <div class="info-card"><div class="info-card-icon">💉</div><div class="info-card-title">Vaccinazioni</div><div class="info-card-text">Non obbligatorie. Consultare il proprio medico.</div></div>
             <div class="info-card"><div class="info-card-icon">📄</div><div class="info-card-title">Documenti</div><div class="info-card-text">Carta d'identità per la Danimarca (UE). Passaporto per la Groenlandia.</div></div>
             <div class="info-card"><div class="info-card-icon">🆘</div><div class="info-card-title">Emergenze</div><div class="info-card-text">Emergenze: 112 · Polizia: 114 · Ambulanza: 112</div></div>
-            <div class="info-card"><div class="info-card-icon">🔌</div><div class="info-card-title">Prese elettriche</div><div class="info-card-text">Tipo C, F, K — Adattatore consigliato.</div></div>
-            <div class="info-card"><div class="info-card-icon">🌡️</div><div class="info-card-title">Clima</div><div class="info-card-text">Danimarca: 15-25°C estate. Groenlandia: 0-10°C estate. Abbigliamento a strati.</div></div>
+            <div class="info-card centered"><div class="info-card-icon">🔌</div><div class="info-card-title">Prese elettriche</div><div class="info-card-text">Tipo C, F, K — Adattatore consigliato.</div></div>
+            <div class="info-card centered"><div class="info-card-icon">🌡️</div><div class="info-card-title">Clima</div><div class="info-card-text">Danimarca: 15-25°C estate. Groenlandia: 0-10°C estate. Abbigliamento a strati.</div></div>
         </div>
     </div>
 </div>
@@ -748,7 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Locations aligned with the itinerary on the page
     const locations = [
         {coords: [45.6306, 8.7281], number: 1, color: 'gold', label: 'Milano Malpensa (MXP)'},
-        {coords: [55.6181, 12.6560], number: '2/7', color: 'gold', label: 'Aeroporto di Copenaghen (CPH)'},
+        {coords: [55.6181, 12.6560], number: '2/8', color: 'gold', label: 'Aeroporto di Copenaghen (CPH)'},
         {coords: [55.6419, 12.0878], number: 3, color: 'gold', label: 'Roskilde'},
         {coords: [57.0488, 9.9217], number: 4, color: 'gold', label: 'Aalborg'},
         {coords: [60.39299, 5.32415], number: 5, color: 'blue', label: 'Bergen (Fiordi Norvegesi)'},
@@ -830,7 +844,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add markers
     locations.forEach((loc, index) => {
         const markerHtml = `<div class="map-marker ${loc.color}">${loc.number}</div>`;
-        const popupContent = loc.number === '2/7' ?
+        const popupContent = loc.number === '2/8' ?
             `<strong>${loc.label}</strong><br>Seconda ed Ultima tappa` :
             `<strong>${loc.label}</strong><br>Tappa ${loc.number}`;
             
